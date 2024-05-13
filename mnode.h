@@ -2,13 +2,6 @@
 #define _MNODE_H
 struct MNode
 {
-    enum EDirection
-    {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT,
-    };
     int map_pos_x = 0;
     int map_pos_y = 0;
 };
