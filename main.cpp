@@ -2,6 +2,8 @@
 #include<iostream>
 #include<string>
 #include<queue>
+#include<curses.h>
+#include"map.h"
 using std::cout;
 using std::cin;
 using std::endl;
@@ -10,17 +12,7 @@ using std::queue;
 
 int main(int argc, char* argv[])
 {
-    queue<int> myque;
-    for (int i = 0; i<10; i++) 
-    {
-        myque.push(i);
-    }
-    while(!myque.empty())
-    {
-        int num = myque.front();
-        cout<<num<<",";
-        myque.pop();
-    }
-    cout<<endl;
+     Map map;
+     map.DrawMap(10, 10);
     return EXIT_SUCCESS;
 }
