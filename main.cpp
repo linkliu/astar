@@ -12,7 +12,7 @@ using std::queue;
 
 int main(int argc, char* argv[])
 {
-     Map map;
-     map.DrawMap(10, 10);
+     Map map(50, 100);
+     map.DrawMap();
     return EXIT_SUCCESS;
 }

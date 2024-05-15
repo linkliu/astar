@@ -1,7 +1,7 @@
 #ifndef _MAP_H
 #define _MAP_H
 #include "mnode.h"
-#include<curses.h>
+#include<ncurses.h>
 enum class ENodeState
 {
     UNCHECK,
@@ -17,10 +17,10 @@ class Map
         WINDOW* mapPtr = nullptr;
     public:
         Map() = default;
-        Map(int _col, int _row):_mapCol(_col),_mapRow(_row){}
+        Map(int _row, int _col):_mapCol(_col),_mapRow(_row){}
         ~Map();
         void FindPath();
-        void DrawMap(int col, int row);
+        void DrawMap();
         void ClearMap();
 };
 #endif

@@ -7,12 +7,12 @@ Map::~Map()
         delwin(mapPtr);
 }
 
-void Map::DrawMap(int col, int row)
+void Map::DrawMap()
 {
     initscr();
     wclear(mapPtr);
     delwin(mapPtr);
-    mapPtr = newwin(50, 100, 0, 0);
+    mapPtr = newwin(_mapRow, _mapCol, 0, 0);
     box(mapPtr, 0, 0);
     wrefresh(mapPtr);
     wgetch(mapPtr);
