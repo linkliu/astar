@@ -1,8 +1,7 @@
 #include"map.h"
 #include <cmath>
-#include <curses.h>
-#include<ncurses.h>
 #include<iostream>
+#include <ncurses.h>
 #include<sstream>
 #include <utility>
 using std::cout;
@@ -41,21 +40,56 @@ void Map::DrawMap()
             move(firdex, secdex);
             int firMod = firdex%_nodeHeight;
             int secMod = secdex%_nodeWidth;
-            if(firMod==0 && secMod==0)
+            if(firdex==0 && secdex == 0)
             {
-                addch('+');
+                printw("%s","┏");
+            }
+            else if(firdex == _mapRow -1 && secdex == 0)
+            {
+                printw("%s","┗");
+            }
+            else if(firdex == 0 && secdex == _mapCol - 1)
+            {
+                printw("%s", "┓");
+            }
+            else if(firdex == _mapRow - 1 && secdex == _mapCol - 1)
+            {
+                printw("%s", "┛");
+            }
+            else if(firdex == 0 && firMod == 0 && secMod == 0)
+            {
+                //addch('+');
+                printw("%s","┬");
+            }
+            else if(secdex == 0 && firMod == 0 && secMod == 0)
+            {
+                printw("%s", "├");
+            }
+            else if(secdex == _mapCol -1 && firMod == 0 && secMod == 0)
+            {
+                printw("%s", "┤");
+            }
+            else if(firdex == _mapRow - 1 && firMod == 0 && secMod == 0)
+            {
+                printw("%s", "┴");
+            }
+            else if(firMod == 0 && secMod == 0)
+            {
+                printw("%s", "┼");
             }
             else if (firMod==0 && secMod!=0) 
             {
-                addch('-');
+                //addch('-');
+                printw("%s","─");
             }
             else if (firMod!=0 && secMod==0)
             {
-                addch('|');
+                //addch('|');
+                printw("%s","│");
             }
             else 
             {
-                addch(' ');
+                printw("%s"," ");
             }
         }
     }
@@ -108,6 +142,24 @@ void Map::Draw(char ch, int _mapIndex_Y, int _mapIndex_X)
         int posx = _mapIndex_X*_nodeWidth+2;
         move(posy, posx);
         addch(ch);
+    }
+    else 
+    {
+        stringstream ss;
+        ss<<"invalid mapindexy:"<<_mapIndex_Y<<" or mapindexx:"<<_mapIndex_X;
+        endwin();
+        cout<<ss.str()<<std::endl;
+    }
+}
+
+void Map::Draw(const char* str, int _mapIndex_Y, int _mapIndex_X)
+{
+    if(isMapIndexValid(_mapIndex_Y, _mapIndex_X))
+    {
+        int posy = _mapIndex_Y*_nodeHeight+1;
+        int posx = _mapIndex_X*_nodeWidth+2;
+        move(posy, posx);
+        printw("%s", str);
     }
     else 
     {

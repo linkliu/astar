@@ -1,1 +1,1 @@
-g++ -g main.cpp map.cpp -lncurses -o main
+g++ -g main.cpp map.cpp -lncursesw -o main

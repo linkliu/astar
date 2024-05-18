@@ -1,15 +1,10 @@
 #ifndef _MAP_H
 #define _MAP_H
 #include "mnode.h"
-#include<ncurses.h>
 #include<map>
 #include <utility>
 using std::map;
-enum class ENodeState
-{
-    UNCHECK,
-    CHECKED
-};
+
 class Map
 {
     private:
@@ -34,6 +29,7 @@ class Map
         void ClearMap();
         void Draw(int num, int _mapIndex_Y, int _mapIndex_X);
         void Draw(char ch, int _mapIndex_Y, int _mapIndex_X);
+        void Draw(const char*, int _mapIndex_Y, int _mapIndex_X);
         int Size();
         int GetCol(){return _mapCol;}
         int GetRow(){return _mapRow;}
