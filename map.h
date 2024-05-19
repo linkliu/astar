@@ -3,7 +3,9 @@
 #include "mnode.h"
 #include<map>
 #include <utility>
+#include<list>
 using std::map;
+using std::list;
 
 class Map
 {
@@ -34,6 +36,7 @@ class Map
         int GetCol(){return _mapCol;}
         int GetRow(){return _mapRow;}
         std::pair<int, int> ExchNumToPosIndex(int num);
-        
+        list<MNode> GetNeighbors(MNode node, list<MNode>& neighborsList);
+        bool NodeCheck(const MNode& node);
 };
 #endif

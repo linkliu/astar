@@ -1,4 +1,5 @@
 #include"map.h"
+#include "mnode.h"
 #include <cmath>
 #include<iostream>
 #include <ncurses.h>
@@ -27,6 +28,11 @@ bool Map::isMapIndexValid(int my, int mx)
     if(my>=0 && my<_maxMapIndex_y && mx>=0 && mx<_maxMapIndex_X)
         return true;
     return false;
+}
+
+bool Map::NodeCheck(const MNode &node)
+{
+    return isMapIndexValid(node.posy, node.posx);
 }
 
 void Map::DrawMap()
@@ -192,5 +198,28 @@ pair<int, int> Map::ExchNumToPosIndex(int num)
         cout<<ss.str()<<std::endl;
         return make_pair(0, 0);
     }
+}
+
+bool Reachable(MNode node)
+{
+    if((node.NType == ENodeType::PATH || node.NType == ENodeType::END ||
+        node.NType == ENodeType::START) && (node.NState == ENodeState::FOUND))
+    {
+        return true;
+    }
+    return false;
+}
+
+list<MNode> Map::GetNeighbors(MNode node, list<MNode>& neighborsList)
+{
+    if(!neighborsList.empty())
+    {
+        neighborsList.clear();
+    }
+    if(isMapIndexValid(node.posy, node.posx) && Reachable(node))
+    {
+        neighborsList.push_back(node);
+    }
+    return neighborsList;
 }
 
