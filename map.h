@@ -36,7 +36,7 @@ class Map
         int GetCol(){return _mapCol;}
         int GetRow(){return _mapRow;}
         std::pair<int, int> ExchNumToPosIndex(int num);
-        list<MNode> GetNeighbors(MNode node, list<MNode>& neighborsList);
+        list<MNode>& GetNeighbors(MNode node, list<MNode>& neighborsList);
         bool NodeCheck(const MNode& node);
 };
 #endif

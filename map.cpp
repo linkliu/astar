@@ -210,7 +210,7 @@ bool Reachable(MNode node)
     return false;
 }
 
-list<MNode> Map::GetNeighbors(MNode node, list<MNode>& neighborsList)
+list<MNode>& Map::GetNeighbors(MNode node, list<MNode>& neighborsList)
 {
     if(!neighborsList.empty())
     {

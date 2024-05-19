@@ -62,7 +62,7 @@ struct MNode
     ENodeType NType = ENodeType::PATH;
     ENodeState NState = ENodeState::NONE;
 
-    string ToString()
+    string ToString() const
     {
         stringstream ss;
         ss<<"posy:"<<posy<<",posx:"<<posx<<",NType:"<<NType<<",NState:"<<NState<<endl;
