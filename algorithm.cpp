@@ -1,5 +1,6 @@
 #include "algorithm.h"
 #include "mnode.h"
+#include <algorithm>
 #include <curses.h>
 #include <iostream>
 #include <list>
@@ -10,6 +11,7 @@ using std::cout;
 using std::endl;
 using std::stringstream;
 using std::vector;
+using std::find_if;
 
 void BFS(Map &map, const MNode &startNode, const MNode &endNode, list<MNode> &pathList)
 {
@@ -31,9 +33,16 @@ void BFS(Map &map, const MNode &startNode, const MNode &endNode, list<MNode> &pa
         MNode ckNode = ckList.front();
         for ( MNode nextNode: map.GetNeighbors(ckNode, nbList)) 
         {
-            //TODO 如果没有找到，插入到下一个要找的步骤
+            //如果还没有检查过，插入到下一个要找的步骤
+            auto checkedFun = [nextNode](MNode node){return node.IsSamePos(nextNode); };
+            if(find_if(stepedVec.cbegin(), stepedVec.cend(), checkedFun) == stepedVec.cend())
+            {
+                ckList.push_back(nextNode);
+                stepedVec.push_back(nextNode);
+            }
             //TODO 如果找到了，不计入
         }
+        ckList.pop_front();
     }
 }
 

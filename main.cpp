@@ -6,6 +6,7 @@
 #include<queue>
 #include<thread>
 #include"map.h"
+#include "mnode.h"
 using std::cout;
 using std::cin;
 using std::endl;
@@ -18,15 +19,10 @@ int main(int argc, char* argv[])
     Map map(41, 81);
     cout<<"map size="<<map.Size();
     map.DrawMap();
-    /*for (int i = 0; i < map.Size(); i++) */
-    /*{*/
-        /*auto piPair = map.ExchNumToPosIndex(i);*/
-        /*map.Draw(i, piPair.first, piPair.second);*/
-        /*refresh();*/
-        /*std::this_thread::sleep_for(std::chrono::milliseconds(50));*/
-    /*}*/
-    map.Draw("▨", 0, 0);
-    map.Draw("▨", 19, 19);
+    //MNode startNode(19, 0, "☉");
+    //MNode endNode(10, 19, "☢");
+    map.Draw("☉", 19, 0);
+    map.Draw("☢", 10, 19);
     refresh();
     getch();
     map.ClearMap();

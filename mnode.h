@@ -56,18 +56,27 @@ inline ostream& operator<<(ostream&os, ENodeState nodeState)
 }
 struct MNode
 {
-    int posy = 0;
-    int posx = 0;
+    int mapIndex_Y = 0;
+    int mapIndex_X = 0;
+    int index = 0;
     string str = "";
     ENodeType NType = ENodeType::PATH;
     ENodeState NState = ENodeState::NONE;
+    MNode() = default;
+    MNode(int _mapY, int _mapX, string _str):mapIndex_Y(_mapY), mapIndex_X(_mapX), str(_str)
+    {
+    }
 
     string ToString() const
     {
         stringstream ss;
-        ss<<"posy:"<<posy<<",posx:"<<posx<<",NType:"<<NType<<",NState:"<<NState<<endl;
+        ss<<"posy:"<<mapIndex_Y<<",posx:"<<mapIndex_X<<",NType:"<<NType<<",NState:"<<NState<<endl;
         ss<<"str:"<<str<<endl;
         return ss.str();
+    }
+    bool IsSamePos(const MNode node) const
+    {
+        return mapIndex_Y == node.mapIndex_Y && mapIndex_X == node.mapIndex_X;
     }
 };
 #endif

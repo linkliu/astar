@@ -6,6 +6,7 @@
 #include<list>
 using std::map;
 using std::list;
+using std::pair;
 
 class Map
 {
@@ -17,7 +18,7 @@ class Map
         int _maxMapIndex_y = 0;
         int _maxMapIndex_X = 0;
         WINDOW* mapPtr = nullptr;
-        bool isMapIndexValid(int my, int mx);
+        bool isMapIndexValid(int my, int mx)const;
     public:
         Map() = default;
         Map(int _row, int _col);
@@ -32,10 +33,12 @@ class Map
         void Draw(int num, int _mapIndex_Y, int _mapIndex_X);
         void Draw(char ch, int _mapIndex_Y, int _mapIndex_X);
         void Draw(const char*, int _mapIndex_Y, int _mapIndex_X);
-        int Size();
+        void Draw(const MNode node)const;
+        int Size() const;
         int GetCol(){return _mapCol;}
         int GetRow(){return _mapRow;}
-        std::pair<int, int> ExchNumToPosIndex(int num);
+        pair<int, int> ExchNumToMapIndex(int num) const;
+        pair<int, int> ExchMapIndexToPOS(int _mapIndex_Y, int _mapIndex_X) const;
         list<MNode>& GetNeighbors(MNode node, list<MNode>& neighborsList);
         bool NodeCheck(const MNode& node);
 };

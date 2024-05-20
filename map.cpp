@@ -1,6 +1,7 @@
 #include"map.h"
 #include "mnode.h"
 #include <cmath>
+#include <curses.h>
 #include<iostream>
 #include <ncurses.h>
 #include<sstream>
@@ -23,7 +24,7 @@ Map::~Map()
         delwin(mapPtr);
 }
 
-bool Map::isMapIndexValid(int my, int mx)
+bool Map::isMapIndexValid(int my, int mx) const
 {
     if(my>=0 && my<_maxMapIndex_y && mx>=0 && mx<_maxMapIndex_X)
         return true;
@@ -32,7 +33,7 @@ bool Map::isMapIndexValid(int my, int mx)
 
 bool Map::NodeCheck(const MNode &node)
 {
-    return isMapIndexValid(node.posy, node.posx);
+    return isMapIndexValid(node.mapIndex_Y, node.mapIndex_X);
 }
 
 void Map::DrawMap()
@@ -162,9 +163,8 @@ void Map::Draw(const char* str, int _mapIndex_Y, int _mapIndex_X)
 {
     if(isMapIndexValid(_mapIndex_Y, _mapIndex_X))
     {
-        int posy = _mapIndex_Y*_nodeHeight+1;
-        int posx = _mapIndex_X*_nodeWidth+2;
-        move(posy, posx);
+        pair<int, int> mpPair = ExchMapIndexToPOS(_mapIndex_Y, _mapIndex_X);
+        move(mpPair.first, mpPair.second);
         printw("%s", str);
     }
     else 
@@ -176,19 +176,42 @@ void Map::Draw(const char* str, int _mapIndex_Y, int _mapIndex_X)
     }
 }
 
-int Map::Size()
+void Map::Draw(const MNode node) const
+{
+    if(isMapIndexValid(node.mapIndex_Y, node.mapIndex_X))
+    {
+        pair<int, int> miPair = ExchMapIndexToPOS(node.mapIndex_Y, node.mapIndex_X);
+        move(miPair.first, miPair.second);
+        printw("%s", node.str.c_str());
+    }
+    else 
+    {
+        stringstream ss;
+        ss<<"invalid mapIndex_Y:"<<node.mapIndex_Y<<" or mapIndex_X:"<<node.mapIndex_X;
+        endwin();
+        cout<<ss.str()<<std::endl;
+    }
+}
+
+int Map::Size() const
 {
     return _maxMapIndex_X*_maxMapIndex_y;
 }
 
-pair<int, int> Map::ExchNumToPosIndex(int num)
+pair<int, int> Map::ExchMapIndexToPOS(int _mapIndex_Y, int _mapIndex_X) const
 {
-    pair<int, int> rowColPair;
+    int posy = _mapIndex_Y*_nodeHeight+1;
+    int posx = _mapIndex_X*_nodeWidth+2;
+    return make_pair(posy, posx);
+}
+
+pair<int, int> Map::ExchNumToMapIndex(int num) const
+{
     if(num>=0 and num < Size())
     {
-        int posy = std::ceil(num/_maxMapIndex_y);
-        int posx = num%_maxMapIndex_y;
-        return make_pair(posy, posx);
+        int mapIndex_Y = std::ceil(num/_maxMapIndex_y);
+        int mapIndex_x = num%_maxMapIndex_y;
+        return make_pair(mapIndex_Y, mapIndex_x);
     }
     else 
     {
@@ -216,7 +239,7 @@ list<MNode>& Map::GetNeighbors(MNode node, list<MNode>& neighborsList)
     {
         neighborsList.clear();
     }
-    if(isMapIndexValid(node.posy, node.posx) && Reachable(node))
+    if(isMapIndexValid(node.mapIndex_Y, node.mapIndex_X) && Reachable(node))
     {
         neighborsList.push_back(node);
     }
