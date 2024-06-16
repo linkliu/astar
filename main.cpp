@@ -5,6 +5,7 @@
 #include<string>
 #include<queue>
 #include<thread>
+#include "algorithm.h"
 #include"map.h"
 #include "mnode.h"
 using std::cout;
@@ -19,11 +20,14 @@ int main(int argc, char* argv[])
     Map map(41, 81);
     cout<<"map size="<<map.Size();
     map.DrawMap();
-    //MNode startNode(19, 0, "☉");
-    //MNode endNode(10, 19, "☢");
-    map.Draw("☉", 19, 0);
-    map.Draw("☢", 10, 19);
+    MNode startNode(19, 0, "☉");
+    MNode endNode(10, 19, "☢");
+    //map.Draw("☉", 19, 0);
+    //map.Draw("☢", 10, 19);
+    map.Draw(startNode);
+    map.Draw(endNode);
     refresh();
+    BFS(map, startNode, endNode);
     getch();
     map.ClearMap();
     return EXIT_SUCCESS;

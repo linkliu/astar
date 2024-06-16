@@ -1,5 +1,6 @@
 #ifndef _MNODE_H
 #define _MNODE_H
+#include <map>
 #include <ncurses.h>
 #include <sstream>
 #include <ostream>
@@ -8,13 +9,14 @@ using std::string;
 using std::stringstream;
 using std::endl;
 using std::ostream;
+using std::map;
 
 
 
 enum class ENodeType
 {
     NONE,
-    PATH,
+    NORMAL,
     BARRIER,
     WATER,
     START,
@@ -34,7 +36,7 @@ inline ostream& operator<<(ostream&os, ENodeType nodeType)
     switch (nodeType) 
     { 
         case ENodeType::BARRIER: return os<<"BARRIER";
-        case ENodeType::PATH: return os<<"PATH";
+        case ENodeType::NORMAL: return os<<"NORMAL";
         case ENodeType::NONE: return os<<"NONE";
         case ENodeType::WATER: return os<<"WATER";
         case ENodeType::START: return os<<"START";
@@ -54,18 +56,33 @@ inline ostream& operator<<(ostream&os, ENodeState nodeState)
         default: return os<<"Unknow node state";
     }
 }
+
 struct MNode
 {
+    map<ENodeState, string> NodePicMap = 
+    {
+        {ENodeState::NONE," "},
+        {ENodeState::FOUND,"☒"},
+        {ENodeState::FINDDING,"☆"},
+        {ENodeState::NEXT,"★"},
+    };
     int mapIndex_Y = 0;
     int mapIndex_X = 0;
     int index = 0;
     string str = "";
-    ENodeType NType = ENodeType::PATH;
+    ENodeType NType = ENodeType::NORMAL;
     ENodeState NState = ENodeState::NONE;
+    
     MNode() = default;
     MNode(int _mapY, int _mapX, string _str):mapIndex_Y(_mapY), mapIndex_X(_mapX), str(_str)
     {
     }
+
+    MNode(int _mapY, int _mapX, ENodeState _state, ENodeType _type):mapIndex_Y(_mapY), mapIndex_X(_mapX), NState(_state), NType(_type)
+    {
+        NStateSetter(_state);
+    }
+
 
     string ToString() const
     {
@@ -77,6 +94,17 @@ struct MNode
     bool IsSamePos(const MNode node) const
     {
         return mapIndex_Y == node.mapIndex_Y && mapIndex_X == node.mapIndex_X;
+    }
+
+    void NtypeSetter(const ENodeType ntype)
+    {
+        NType = ntype;
+    }
+
+    void NStateSetter(const ENodeState nstate)
+    {
+        NState = nstate;
+        str = NodePicMap[nstate];
     }
 };
 #endif

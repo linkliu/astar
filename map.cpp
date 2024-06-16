@@ -100,6 +100,12 @@ void Map::DrawMap()
             }
         }
     }
+    for (int i = 0; i < Size(); i++) 
+    {
+        pair<int, int> ipair = ExchNumToMapIndex(i); 
+        MNode node = MNode(ipair.first, ipair.second, ENodeState::NONE, ENodeType::NORMAL);
+        nodeMap.insert({i, node});
+    }
     refresh();
 }
 
@@ -225,8 +231,8 @@ pair<int, int> Map::ExchNumToMapIndex(int num) const
 
 bool Reachable(MNode node)
 {
-    if((node.NType == ENodeType::PATH || node.NType == ENodeType::END ||
-        node.NType == ENodeType::START) && (node.NState == ENodeState::FOUND))
+    if((node.NType == ENodeType::NORMAL || node.NType == ENodeType::END ||
+        node.NType == ENodeType::START))
     {
         return true;
     }
@@ -243,6 +249,11 @@ list<MNode>& Map::GetNeighbors(MNode node, list<MNode>& neighborsList)
     {
         neighborsList.push_back(node);
     }
+    //LEFT
+    //UP
+    //RIGHT
+    //DOWN
+
     return neighborsList;
 }
 

@@ -18,6 +18,7 @@ class Map
         int _maxMapIndex_y = 0;
         int _maxMapIndex_X = 0;
         WINDOW* mapPtr = nullptr;
+        map<int, MNode> nodeMap;
         bool isMapIndexValid(int my, int mx)const;
     public:
         Map() = default;
