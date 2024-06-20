@@ -5,11 +5,13 @@
 #include <sstream>
 #include <ostream>
 #include <string>
+#include <utility>
 using std::string;
 using std::stringstream;
 using std::endl;
 using std::ostream;
 using std::map;
+using std::pair;
 
 
 
@@ -77,13 +79,14 @@ struct MNode
     MNode(int _mapY, int _mapX, string _str):mapIndex_Y(_mapY), mapIndex_X(_mapX), str(_str)
     {
     }
-
-    MNode(int _mapY, int _mapX, ENodeState _state, ENodeType _type):mapIndex_Y(_mapY), mapIndex_X(_mapX), NState(_state), NType(_type)
+    MNode(int _mapY, int _mapX, ENodeType _type, ENodeState _state):
+        mapIndex_Y(_mapY), 
+        mapIndex_X(_mapX), 
+        NType(_type),
+        NState(_state)
     {
         NStateSetter(_state);
     }
-
-
     string ToString() const
     {
         stringstream ss;
@@ -105,6 +108,11 @@ struct MNode
     {
         NState = nstate;
         str = NodePicMap[nstate];
+    }
+
+    pair<int, int> GetMapIndexYX() const
+    {
+        return std::make_pair(mapIndex_Y, mapIndex_Y);
     }
 };
 #endif

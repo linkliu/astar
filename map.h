@@ -20,6 +20,7 @@ class Map
         WINDOW* mapPtr = nullptr;
         map<int, MNode> nodeMap;
         bool isMapIndexValid(int my, int mx)const;
+        bool isNumValid(int num) const;
     public:
         Map() = default;
         Map(int _row, int _col);
@@ -34,13 +35,15 @@ class Map
         void Draw(int num, int _mapIndex_Y, int _mapIndex_X);
         void Draw(char ch, int _mapIndex_Y, int _mapIndex_X);
         void Draw(const char*, int _mapIndex_Y, int _mapIndex_X);
-        void Draw(const MNode node)const;
+        void Draw(const MNode& node)const;
         int Size() const;
         int GetCol(){return _mapCol;}
         int GetRow(){return _mapRow;}
+        const MNode& GetNode(int _mapIndex_Y, int _mapIndex_X) const;
         pair<int, int> ExchNumToMapIndex(int num) const;
         pair<int, int> ExchMapIndexToPOS(int _mapIndex_Y, int _mapIndex_X) const;
-        list<MNode>& GetNeighbors(MNode node, list<MNode>& neighborsList);
+        int ExchMapIndexToNum(int _mapIndex_Y, int _mapIndex_X) const;
+        list<MNode>& GetNeighbors(const MNode& node, list<MNode>& neighborsList);
         bool NodeCheck(const MNode& node);
 };
 #endif

@@ -5,6 +5,7 @@
 #include<iostream>
 #include <ncurses.h>
 #include<sstream>
+#include <stdexcept>
 #include <utility>
 using std::cout;
 using std::stringstream;
@@ -27,14 +28,29 @@ Map::~Map()
 bool Map::isMapIndexValid(int my, int mx) const
 {
     if(my>=0 && my<_maxMapIndex_y && mx>=0 && mx<_maxMapIndex_X)
+    {
         return true;
-    return false;
+    }
+    else
+    {
+        stringstream ss;
+        ss<<"invalid _mapIndex_Y:"<<my<<",_mapIndex_X:"<<mx;
+        endwin();
+        cout<<ss.str()<<std::endl;
+        return false;
+    }
+}
+
+bool Map::isNumValid(int num) const
+{
+    return num >= 0 && num < Size();
 }
 
 bool Map::NodeCheck(const MNode &node)
 {
     return isMapIndexValid(node.mapIndex_Y, node.mapIndex_X);
 }
+
 
 void Map::DrawMap()
 {
@@ -103,7 +119,7 @@ void Map::DrawMap()
     for (int i = 0; i < Size(); i++) 
     {
         pair<int, int> ipair = ExchNumToMapIndex(i); 
-        MNode node = MNode(ipair.first, ipair.second, ENodeState::NONE, ENodeType::NORMAL);
+        MNode node = MNode(ipair.first, ipair.second, ENodeType::NORMAL, ENodeState::NONE);
         nodeMap.insert({i, node});
     }
     refresh();
@@ -156,13 +172,6 @@ void Map::Draw(char ch, int _mapIndex_Y, int _mapIndex_X)
         move(posy, posx);
         addch(ch);
     }
-    else 
-    {
-        stringstream ss;
-        ss<<"invalid mapindexy:"<<_mapIndex_Y<<" or mapindexx:"<<_mapIndex_X;
-        endwin();
-        cout<<ss.str()<<std::endl;
-    }
 }
 
 void Map::Draw(const char* str, int _mapIndex_Y, int _mapIndex_X)
@@ -173,29 +182,15 @@ void Map::Draw(const char* str, int _mapIndex_Y, int _mapIndex_X)
         move(mpPair.first, mpPair.second);
         printw("%s", str);
     }
-    else 
-    {
-        stringstream ss;
-        ss<<"invalid mapindexy:"<<_mapIndex_Y<<" or mapindexx:"<<_mapIndex_X;
-        endwin();
-        cout<<ss.str()<<std::endl;
-    }
 }
 
-void Map::Draw(const MNode node) const
+void Map::Draw(const MNode& node) const
 {
     if(isMapIndexValid(node.mapIndex_Y, node.mapIndex_X))
     {
         pair<int, int> miPair = ExchMapIndexToPOS(node.mapIndex_Y, node.mapIndex_X);
         move(miPair.first, miPair.second);
         printw("%s", node.str.c_str());
-    }
-    else 
-    {
-        stringstream ss;
-        ss<<"invalid mapIndex_Y:"<<node.mapIndex_Y<<" or mapIndex_X:"<<node.mapIndex_X;
-        endwin();
-        cout<<ss.str()<<std::endl;
     }
 }
 
@@ -206,14 +201,21 @@ int Map::Size() const
 
 pair<int, int> Map::ExchMapIndexToPOS(int _mapIndex_Y, int _mapIndex_X) const
 {
-    int posy = _mapIndex_Y*_nodeHeight+1;
-    int posx = _mapIndex_X*_nodeWidth+2;
-    return make_pair(posy, posx);
+    if (isMapIndexValid(_mapIndex_Y, _mapIndex_X)) 
+    {
+        int posy = _mapIndex_Y * _nodeHeight + 1;
+        int posx = _mapIndex_X * _nodeWidth + 2;
+        return make_pair(posy, posx);
+    }
+    else 
+    {
+        return make_pair(0, 0);
+    }
 }
 
 pair<int, int> Map::ExchNumToMapIndex(int num) const
 {
-    if(num>=0 and num < Size())
+    if(isNumValid(num))
     {
         int mapIndex_Y = std::ceil(num/_maxMapIndex_y);
         int mapIndex_x = num%_maxMapIndex_y;
@@ -229,6 +231,18 @@ pair<int, int> Map::ExchNumToMapIndex(int num) const
     }
 }
 
+int Map::ExchMapIndexToNum(int _mapIndex_Y, int _mapIndex_X) const
+{
+    if(isMapIndexValid(_mapIndex_Y, _mapIndex_X))
+    {
+        return _mapIndex_Y*_mapIndex_Y + _mapIndex_X;
+    }
+    else 
+    {
+        return -1;
+    }
+}
+
 bool Reachable(MNode node)
 {
     if((node.NType == ENodeType::NORMAL || node.NType == ENodeType::END ||
@@ -239,7 +253,28 @@ bool Reachable(MNode node)
     return false;
 }
 
-list<MNode>& Map::GetNeighbors(MNode node, list<MNode>& neighborsList)
+const MNode& Map::GetNode(int _mapIndex_Y, int _mapIndex_X) const
+{
+    if(isMapIndexValid(_mapIndex_Y, _mapIndex_X))
+    {
+        int num = ExchMapIndexToNum(_mapIndex_Y, _mapIndex_X);
+        auto getIt = nodeMap.find(num);
+        if(getIt != nodeMap.cend())
+        {
+            return getIt->second; 
+        }
+        else 
+        {
+            throw std::domain_error(&"cant find num="[num]);
+        }
+    }
+    else 
+    {
+        throw std::invalid_argument("invalid map index x,y");
+    }
+}
+
+list<MNode>& Map::GetNeighbors(const MNode& node, list<MNode>& neighborsList)
 {
     if(!neighborsList.empty())
     {
@@ -249,7 +284,15 @@ list<MNode>& Map::GetNeighbors(MNode node, list<MNode>& neighborsList)
     {
         neighborsList.push_back(node);
     }
+    pair<int, int> mapIndexPiar = node.GetMapIndexYX();
+    pair<int, int> leftPair = {mapIndexPiar.first, mapIndexPiar.second -1};
+    pair<int, int> upPair = {mapIndexPiar.first -1, mapIndexPiar.second};
+    pair<int, int> rightPair = {mapIndexPiar.first, mapIndexPiar.second + 1};
+    pair<int, int> downPair = {mapIndexPiar.first + 1, mapIndexPiar.second};
     //LEFT
+    if(isMapIndexValid(leftPair.first, leftPair.second))
+    {
+    }
     //UP
     //RIGHT
     //DOWN
