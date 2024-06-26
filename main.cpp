@@ -5,14 +5,13 @@
 #include<string>
 #include<queue>
 #include<thread>
-#include "algorithm.h"
-#include"map.h"
 #include "mnode.h"
+#include"map.h"
+#include "astar_algorithm.h"
 using std::cout;
 using std::cin;
 using std::endl;
 using std::string;
-using std::queue;
 
 int main(int argc, char* argv[])
 {

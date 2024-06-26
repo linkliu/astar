@@ -3,6 +3,7 @@
 #include <cmath>
 #include <curses.h>
 #include<iostream>
+#include <list>
 #include <ncurses.h>
 #include<sstream>
 #include <stdexcept>
@@ -194,6 +195,14 @@ void Map::Draw(const MNode& node) const
     }
 }
 
+void Map::Draw(const list<MNode> & dlist) const 
+{
+    for (MNode node : dlist) 
+    {
+        Draw(node);
+    }
+}
+
 int Map::Size() const
 {
     return _maxMapIndex_X*_maxMapIndex_y;
@@ -274,6 +283,16 @@ const MNode& Map::GetNode(int _mapIndex_Y, int _mapIndex_X) const
     }
 }
 
+void Map::filterNeightbor(pair<int, int> &npair, list<MNode> & nlist)
+{
+    if(isMapIndexValid(npair.first, npair.second))
+    {
+        MNode node = GetNode(npair.first, npair.second);
+        node.NStateSetter(ENodeState::NEXT);
+        nlist.push_back(node);
+    }
+}
+
 list<MNode>& Map::GetNeighbors(const MNode& node, list<MNode>& neighborsList)
 {
     if(!neighborsList.empty())
@@ -290,13 +309,13 @@ list<MNode>& Map::GetNeighbors(const MNode& node, list<MNode>& neighborsList)
     pair<int, int> rightPair = {mapIndexPiar.first, mapIndexPiar.second + 1};
     pair<int, int> downPair = {mapIndexPiar.first + 1, mapIndexPiar.second};
     //LEFT
-    if(isMapIndexValid(leftPair.first, leftPair.second))
-    {
-    }
+    filterNeightbor(leftPair, neighborsList);
     //UP
+    filterNeightbor(upPair,neighborsList);
     //RIGHT
+    filterNeightbor(rightPair, neighborsList);
     //DOWN
-
+    filterNeightbor(downPair, neighborsList);
     return neighborsList;
 }
 

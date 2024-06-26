@@ -1,1 +1,1 @@
-g++ -g main.cpp map.cpp -lncursesw -o main
+g++ -g main.cpp astar_algorithm.cpp map.cpp -lncursesw -o main

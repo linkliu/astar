@@ -21,6 +21,7 @@ class Map
         map<int, MNode> nodeMap;
         bool isMapIndexValid(int my, int mx)const;
         bool isNumValid(int num) const;
+        void filterNeightbor(pair<int, int>  &npair, list<MNode> &nlist);
     public:
         Map() = default;
         Map(int _row, int _col);
@@ -36,6 +37,7 @@ class Map
         void Draw(char ch, int _mapIndex_Y, int _mapIndex_X);
         void Draw(const char*, int _mapIndex_Y, int _mapIndex_X);
         void Draw(const MNode& node)const;
+        void Draw(const list<MNode> & dlist) const;
         int Size() const;
         int GetCol(){return _mapCol;}
         int GetRow(){return _mapRow;}
