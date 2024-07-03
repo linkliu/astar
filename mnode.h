@@ -112,7 +112,7 @@ struct MNode
 
     pair<int, int> GetMapIndexYX() const
     {
-        return std::make_pair(mapIndex_Y, mapIndex_Y);
+        return std::make_pair(mapIndex_Y, mapIndex_X);
     }
 };
 #endif

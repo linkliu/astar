@@ -32,11 +32,11 @@ void BFS(Map &map, const MNode &startNode, const MNode &endNode)
     while(!waveList.empty())
     {
         MNode ckNode = waveList.front();
-        ckNode.NState = ENodeState::FINDDING;
-        //map.Draw(ckNode);
+        ckNode.NStateSetter(ENodeState::FINDDING);
+        map.Draw(ckNode);
         nbList = map.GetNeighbors(ckNode, nbList);
         //map.Draw(nbList);
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
         refresh();
         for ( MNode nextNode: nbList) 
         {
@@ -50,7 +50,7 @@ void BFS(Map &map, const MNode &startNode, const MNode &endNode)
             }
         }
         waveList.pop_front();
-        map.Draw(nbList);
+        //map.Draw(nbList);
         refresh();
     }
 }

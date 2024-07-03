@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
     Map map(41, 81);
     cout<<"map size="<<map.Size();
     map.DrawMap();
-    MNode startNode(19, 0, "☉");
+    MNode startNode(9, 10, "☉");
     MNode endNode(10, 19, "☢");
     //map.Draw("☉", 19, 0);
     //map.Draw("☢", 10, 19);

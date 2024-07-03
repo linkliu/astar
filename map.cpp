@@ -226,8 +226,8 @@ pair<int, int> Map::ExchNumToMapIndex(int num) const
 {
     if(isNumValid(num))
     {
-        int mapIndex_Y = std::ceil(num/_maxMapIndex_y);
-        int mapIndex_x = num%_maxMapIndex_y;
+        int mapIndex_Y = std::ceil(num/_maxMapIndex_X);
+        int mapIndex_x = num%_maxMapIndex_X;
         return make_pair(mapIndex_Y, mapIndex_x);
     }
     else 
@@ -244,7 +244,7 @@ int Map::ExchMapIndexToNum(int _mapIndex_Y, int _mapIndex_X) const
 {
     if(isMapIndexValid(_mapIndex_Y, _mapIndex_X))
     {
-        return _mapIndex_Y*_mapIndex_Y + _mapIndex_X;
+        return _mapIndex_Y*_maxMapIndex_X + _mapIndex_X;
     }
     else 
     {
@@ -288,7 +288,7 @@ void Map::filterNeightbor(pair<int, int> &npair, list<MNode> & nlist)
     if(isMapIndexValid(npair.first, npair.second))
     {
         MNode node = GetNode(npair.first, npair.second);
-        node.NStateSetter(ENodeState::NEXT);
+        //node.NStateSetter(ENodeState::NEXT);
         nlist.push_back(node);
     }
 }
