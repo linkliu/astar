@@ -13,7 +13,14 @@ using std::ostream;
 using std::map;
 using std::pair;
 
-
+enum class EDir
+{
+    NONE,
+    LEFT,
+    RIGHT,
+    UP,
+    DOWN,
+};
 
 enum class ENodeType
 {
@@ -31,6 +38,31 @@ enum class ENodeState
     FOUND,
     FINDDING,
     NEXT,
+};
+static map<ENodeState, string> NSStrMap = 
+{
+    {ENodeState::NONE, " "},
+    {ENodeState::FOUND, "☒"},
+    {ENodeState::FINDDING, "☆"},
+    {ENodeState::NEXT, "★"},
+};
+
+static map<ENodeType, string> NTStrMap = {
+    {ENodeType::NONE, " "}, 
+    {ENodeType::NORMAL, " "},
+    {ENodeType::BARRIER, "▇"}, 
+    {ENodeType::WATER, "⁜"},
+    {ENodeType::START, "☉"},   
+    {ENodeType::END, "☢"},
+};
+
+static map<EDir, string> NDirStrMap = 
+{
+    {EDir::NONE, "↺"},
+    {EDir::LEFT, "⇦"},
+    {EDir::RIGHT, "⇨"},
+    {EDir::UP, "⇧"},
+    {EDir::DOWN, "⇩"},
 };
 
 inline ostream& operator<<(ostream&os, ENodeType nodeType)
@@ -59,21 +91,28 @@ inline ostream& operator<<(ostream&os, ENodeState nodeState)
     }
 }
 
+inline ostream& operator<<(ostream&os, EDir dir)
+{
+    switch (dir) 
+    {
+        case EDir::LEFT: return os<<"left";
+        case EDir::RIGHT: return os<<"right";
+        case EDir::UP: return os<<"up";
+        case EDir::DOWN: return os<<"down";
+        default:return os<<"Unknow dir type";
+    }
+}
+
 struct MNode
 {
-    map<ENodeState, string> NodePicMap = 
-    {
-        {ENodeState::NONE," "},
-        {ENodeState::FOUND,"☒"},
-        {ENodeState::FINDDING,"☆"},
-        {ENodeState::NEXT,"★"},
-    };
     int mapIndex_Y = 0;
     int mapIndex_X = 0;
     int index = 0;
     string str = "";
     ENodeType NType = ENodeType::NORMAL;
     ENodeState NState = ENodeState::NONE;
+    EDir NDir = EDir::NONE;
+
     
     MNode() = default;
     MNode(int _mapY, int _mapX, string _str):mapIndex_Y(_mapY), mapIndex_X(_mapX), str(_str)
@@ -102,12 +141,19 @@ struct MNode
     void NtypeSetter(const ENodeType ntype)
     {
         NType = ntype;
+        str = NTStrMap[ntype];
     }
 
     void NStateSetter(const ENodeState nstate)
     {
         NState = nstate;
-        str = NodePicMap[nstate];
+        str = NSStrMap[nstate];
+    }
+
+    void NDirSetter(const EDir dir)
+    {
+        NDir = dir;
+        str = NDirStrMap[dir];
     }
 
     pair<int, int> GetMapIndexYX() const

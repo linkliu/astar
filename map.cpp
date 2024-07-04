@@ -52,11 +52,8 @@ bool Map::NodeCheck(const MNode &node)
     return isMapIndexValid(node.mapIndex_Y, node.mapIndex_X);
 }
 
-
-void Map::DrawMap()
+void Map::drawGrid(int _row, int _col)
 {
-    initscr();
-    cout<<"_mapRow="<<_mapRow<<"_mapCol="<<_mapCol<<std::endl;
     for (int firdex = 0; firdex < _mapRow; firdex++) 
     {
         for (int secdex = 0 ; secdex < _mapCol; secdex++) 
@@ -117,12 +114,24 @@ void Map::DrawMap()
             }
         }
     }
+}
+
+void Map::buildNodes(map<int, MNode>& nMap)
+{
     for (int i = 0; i < Size(); i++) 
     {
         pair<int, int> ipair = ExchNumToMapIndex(i); 
         MNode node = MNode(ipair.first, ipair.second, ENodeType::NORMAL, ENodeState::NONE);
         nodeMap.insert({i, node});
     }
+}
+
+void Map::DrawMap()
+{
+    initscr();
+    cout<<"_mapRow="<<_mapRow<<"_mapCol="<<_mapCol<<std::endl;
+    drawGrid(_mapRow, _mapCol);
+    buildNodes(nodeMap);
     refresh();
 }
 
@@ -252,10 +261,11 @@ int Map::ExchMapIndexToNum(int _mapIndex_Y, int _mapIndex_X) const
     }
 }
 
-bool Reachable(MNode node)
+bool Map::isReachable(const MNode &node) const 
 {
-    if((node.NType == ENodeType::NORMAL || node.NType == ENodeType::END ||
-        node.NType == ENodeType::START))
+
+    if ((node.NType == ENodeType::NORMAL || node.NType == ENodeType::END ||
+         node.NType == ENodeType::START)) 
     {
         return true;
     }
@@ -288,8 +298,11 @@ void Map::filterNeightbor(pair<int, int> &npair, list<MNode> & nlist)
     if(isMapIndexValid(npair.first, npair.second))
     {
         MNode node = GetNode(npair.first, npair.second);
-        //node.NStateSetter(ENodeState::NEXT);
-        nlist.push_back(node);
+        if(isReachable(node))
+        {
+            //node.NStateSetter(ENodeState::NEXT);
+            nlist.push_back(node);
+        }
     }
 }
 
@@ -298,10 +311,6 @@ list<MNode>& Map::GetNeighbors(const MNode& node, list<MNode>& neighborsList)
     if(!neighborsList.empty())
     {
         neighborsList.clear();
-    }
-    if(isMapIndexValid(node.mapIndex_Y, node.mapIndex_X) && Reachable(node))
-    {
-        neighborsList.push_back(node);
     }
     pair<int, int> mapIndexPiar = node.GetMapIndexYX();
     pair<int, int> leftPair = {mapIndexPiar.first, mapIndexPiar.second -1};

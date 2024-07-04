@@ -22,6 +22,9 @@ class Map
         bool isMapIndexValid(int my, int mx)const;
         bool isNumValid(int num) const;
         void filterNeightbor(pair<int, int>  &npair, list<MNode> &nlist);
+        bool isReachable(const MNode& node) const;
+        void drawGrid(int _row, int _col);
+        void buildNodes(map<int, MNode>& nMap);
     public:
         Map() = default;
         Map(int _row, int _col);
@@ -41,6 +44,8 @@ class Map
         int Size() const;
         int GetCol(){return _mapCol;}
         int GetRow(){return _mapRow;}
+        int GetMapCol(){return _maxMapIndex_X;};
+        int GetMapRow(){return _maxMapIndex_y;};
         const MNode& GetNode(int _mapIndex_Y, int _mapIndex_X) const;
         pair<int, int> ExchNumToMapIndex(int num) const;
         pair<int, int> ExchMapIndexToPOS(int _mapIndex_Y, int _mapIndex_X) const;

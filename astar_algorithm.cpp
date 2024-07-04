@@ -14,9 +14,32 @@ using std::stringstream;
 using std::vector;
 using std::find_if;
 
-void BFS(Map &map, const MNode &startNode, const MNode &endNode)
+static map<ENodeType, list<pair<int,int>>> ElementsMap = 
 {
-    if(!map.NodeCheck(startNode) || !map.NodeCheck(endNode) || map.Size() <= 0)
+    {ENodeType::BARRIER, {{13,4},{14,4},{15,4}, {15,5},{15,6}}},
+    {ENodeType::WATER,{{7,7},{7,8},{7,9},{8,9},{9,9},{10, 9}}}
+};
+
+void ConstructMap(const Map &aMap)
+{
+    if(aMap.Size() > 0)
+    {
+        for (pair<ENodeType, list<pair<int, int>>> ePair : ElementsMap) 
+        {
+            for (pair<int, int> miPair : ePair.second) 
+            {
+                MNode node = aMap.GetNode(miPair.first, miPair.second);
+                node.NtypeSetter(ePair.first);
+                aMap.Draw(node);
+            }
+        }
+        refresh();
+    }
+}
+
+void BFS(Map &aMap, const MNode &startNode, const MNode &endNode)
+{
+    if(!aMap.NodeCheck(startNode) || !aMap.NodeCheck(endNode) || aMap.Size() <= 0)
     {
         stringstream ss;
         ss<<"invalid start node:"<<startNode.ToString()<<" or end node:"<<endNode.ToString()<<endl;
@@ -33,8 +56,8 @@ void BFS(Map &map, const MNode &startNode, const MNode &endNode)
     {
         MNode ckNode = waveList.front();
         ckNode.NStateSetter(ENodeState::FINDDING);
-        map.Draw(ckNode);
-        nbList = map.GetNeighbors(ckNode, nbList);
+        aMap.Draw(ckNode);
+        nbList = aMap.GetNeighbors(ckNode, nbList);
         //map.Draw(nbList);
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         refresh();
