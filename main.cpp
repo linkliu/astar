@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
     Map tMap(41, 81);
     cout<<"map size="<<tMap.Size();
     tMap.DrawMap();
-    MNode startNode(6, 4, "☉");
+    MNode startNode(3, 9, "☉");
     MNode endNode(10, 19, "☢");
     //map.Draw("☉", 19, 0);
     //map.Draw("☢", 10, 19);
@@ -31,9 +31,11 @@ int main(int argc, char* argv[])
     //print_map(tMap);
     ConstructMap(tMap);
     //cout<<"path----------------------------------2"<<endl;
-    refresh();
+    //print_map(tMap);
+    //refresh();
     BFS(tMap, startNode, endNode);
     //cout<<"path----------------------------------3"<<endl;
+    //print_map(tMap);
     getch();
     tMap.ClearMap();
     return EXIT_SUCCESS;

@@ -34,10 +34,10 @@ bool Map::isMapIndexValid(int my, int mx) const
     }
     else
     {
-        stringstream ss;
-        ss<<"invalid _mapIndex_Y:"<<my<<",_mapIndex_X:"<<mx;
-        endwin();
-        cout<<ss.str()<<std::endl;
+        //stringstream ss;
+        //ss<<"invalid _mapIndex_Y:"<<my<<",_mapIndex_X:"<<mx;
+        //endwin();
+        //cout<<ss.str()<<std::endl;
         return false;
     }
 }
@@ -54,6 +54,7 @@ bool Map::NodeCheck(const MNode &node)
 
 void Map::drawGrid(int _row, int _col)
 {
+    initscr();
     for (int firdex = 0; firdex < _mapRow; firdex++) 
     {
         for (int secdex = 0 ; secdex < _mapCol; secdex++) 
@@ -114,6 +115,7 @@ void Map::drawGrid(int _row, int _col)
             }
         }
     }
+    refresh();
 }
 
 void Map::buildNodes(map<int, MNode>& nMap)
@@ -128,11 +130,9 @@ void Map::buildNodes(map<int, MNode>& nMap)
 
 void Map::DrawMap()
 {
-    initscr();
     cout<<"_mapRow="<<_mapRow<<"_mapCol="<<_mapCol<<std::endl;
     drawGrid(_mapRow, _mapCol);
     buildNodes(nodeMap);
-    refresh();
 }
 
 void Map::ClearMap()
@@ -272,7 +272,7 @@ bool Map::isReachable(const MNode &node) const
     return false;
 }
 
-const MNode& Map::GetNode(int _mapIndex_Y, int _mapIndex_X) const
+MNode& Map::GetNode(int _mapIndex_Y, int _mapIndex_X)
 {
     if(isMapIndexValid(_mapIndex_Y, _mapIndex_X))
     {

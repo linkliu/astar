@@ -4,7 +4,7 @@
 #include "map.h"
 #include "mnode.h"
 
-void ConstructMap(const Map& aMap);
+void ConstructMap(Map& aMap);
 
 void BFS(Map& aMap, const MNode& startNode, const MNode& endNode);
 void Dijkstra(const Map& aMap, const MNode& startNode, const MNode& endNode);
