@@ -160,5 +160,22 @@ struct MNode
     {
         return std::make_pair(mapIndex_Y, mapIndex_X);
     }
+
+    EDir JudgeDir(const MNode& other) const
+    {
+        pair<int, int> selfPair = GetMapIndexYX();
+        pair<int, int> otherPair = other.GetMapIndexYX();
+        if(selfPair.first == otherPair.first)
+        {
+            if(selfPair.second < otherPair.second) return EDir::LEFT;
+            else return EDir::RIGHT;
+        }
+        if(selfPair.second == otherPair.second)
+        {
+            if(selfPair.first < otherPair.first) return EDir::UP;
+            else return EDir::DOWN;
+        }
+        return EDir::NONE;
+    }
 };
 #endif

@@ -13,6 +13,7 @@ using std::endl;
 using std::stringstream;
 using std::vector;
 using std::find_if;
+using std::make_pair;
 
 static map<ENodeType, list<pair<int,int>>> ElementsMap = 
 {
@@ -54,7 +55,7 @@ void ConstructMap(Map &aMap)
     }
 }
 
-void BFS(Map &aMap, const MNode &startNode, const MNode &endNode)
+void BFS(Map &aMap, const MNode &startNode, const MNode &endNode, map<int, int>& originMap)
 {
     if(!aMap.NodeCheck(startNode) || !aMap.NodeCheck(endNode) || aMap.Size() <= 0)
     {
@@ -75,6 +76,7 @@ void BFS(Map &aMap, const MNode &startNode, const MNode &endNode)
         ckNode.NStateSetter(ENodeState::FINDDING);
         aMap.Draw(ckNode);
         nbList = aMap.GetNeighbors(ckNode, nbList);
+        
         //map.Draw(nbList);
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
         refresh();
@@ -82,6 +84,10 @@ void BFS(Map &aMap, const MNode &startNode, const MNode &endNode)
         {
             //如果还没有检查过，插入到下一个要找的步骤
             auto checkedFun = [nextNode](MNode node){return node.IsSamePos(nextNode); };
+            if(originMap.find(aMap.GetNodeNum(ckNode)) == originMap.cend())
+            {
+                originMap.insert(make_pair<int, int>(aMap.GetNodeNum(nextNode), aMap.GetNodeNum(ckNode)));
+            }
             if(find_if(reachedVector.cbegin(), reachedVector.cend(), checkedFun) == reachedVector.cend())
             {
                 waveList.push_back(nextNode);

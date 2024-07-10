@@ -33,7 +33,10 @@ int main(int argc, char* argv[])
     //cout<<"path----------------------------------2"<<endl;
     //print_map(tMap);
     //refresh();
-    BFS(tMap, startNode, endNode);
+    map<int, int> originMap;
+    BFS(tMap, startNode, endNode, originMap);
+    print_map_path(originMap, tMap);
+    refresh();
     //cout<<"path----------------------------------3"<<endl;
     //print_map(tMap);
     getch();

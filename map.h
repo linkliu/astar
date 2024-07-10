@@ -47,6 +47,7 @@ class Map
         int GetMapCol(){return _maxMapIndex_X;};
         int GetMapRow(){return _maxMapIndex_y;};
         MNode& GetNode(int _mapIndex_Y, int _mapIndex_X);
+        const int GetNodeNum(const MNode& node) const;
         pair<int, int> ExchNumToMapIndex(int num) const;
         pair<int, int> ExchMapIndexToPOS(int _mapIndex_Y, int _mapIndex_X) const;
         int ExchMapIndexToNum(int _mapIndex_Y, int _mapIndex_X) const;

@@ -217,6 +217,11 @@ int Map::Size() const
     return _maxMapIndex_X*_maxMapIndex_y;
 }
 
+const int Map::GetNodeNum(const MNode &node) const
+{
+    return ExchMapIndexToNum(node.mapIndex_Y, node.mapIndex_X);
+}
+
 pair<int, int> Map::ExchMapIndexToPOS(int _mapIndex_Y, int _mapIndex_X) const
 {
     if (isMapIndexValid(_mapIndex_Y, _mapIndex_X)) 
