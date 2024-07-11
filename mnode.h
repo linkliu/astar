@@ -3,7 +3,7 @@
 #include <map>
 #include <ncurses.h>
 #include <sstream>
-#include <ostream>
+#include <iostream>
 #include <string>
 #include <utility>
 using std::string;
@@ -12,6 +12,7 @@ using std::endl;
 using std::ostream;
 using std::map;
 using std::pair;
+using std::cout;
 
 enum class EDir
 {
@@ -133,7 +134,8 @@ struct MNode
         ss<<"str:"<<str<<endl;
         return ss.str();
     }
-    bool IsSamePos(const MNode node) const
+
+    bool IsSamePos(const MNode& node) const
     {
         return mapIndex_Y == node.mapIndex_Y && mapIndex_X == node.mapIndex_X;
     }
@@ -167,13 +169,25 @@ struct MNode
         pair<int, int> otherPair = other.GetMapIndexYX();
         if(selfPair.first == otherPair.first)
         {
-            if(selfPair.second < otherPair.second) return EDir::LEFT;
-            else return EDir::RIGHT;
+            if(selfPair.second < otherPair.second) 
+            {
+                return EDir::RIGHT;
+            }
+            else
+            {
+                return EDir::LEFT;
+            }
         }
         if(selfPair.second == otherPair.second)
         {
-            if(selfPair.first < otherPair.first) return EDir::UP;
-            else return EDir::DOWN;
+            if(selfPair.first < otherPair.first)
+            {
+                return EDir::DOWN;
+            }
+            else 
+            {
+                return EDir::UP;
+            }
         }
         return EDir::NONE;
     }

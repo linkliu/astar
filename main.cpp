@@ -23,8 +23,6 @@ int main(int argc, char* argv[])
     tMap.DrawMap();
     MNode startNode(3, 9, "☉");
     MNode endNode(10, 19, "☢");
-    //map.Draw("☉", 19, 0);
-    //map.Draw("☢", 10, 19);
     tMap.Draw(startNode);
     tMap.Draw(endNode);
     //cout<<"path----------------------------------1"<<endl;

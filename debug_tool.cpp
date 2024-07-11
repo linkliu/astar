@@ -33,11 +33,20 @@ const void print_map_path(const map<int, int>& _map, Map& tMap)
         pair<int, int> firPair = tMap.ExchNumToMapIndex(mPair.first);
         pair<int, int> secPair = tMap.ExchNumToMapIndex(mPair.second);
         MNode& node1 = tMap.GetNode(firPair.first, firPair.second);
-        MNode& node2 = tMap.GetNode(secPair.first, firPair.second);
+        MNode& node2 = tMap.GetNode(secPair.first, secPair.second);
         node1.NDirSetter(node1.JudgeDir(node2));
         tMap.Draw(node1);
         //std::this_thread::sleep_for(std::chrono::seconds(1));
         //refresh();
     }
 
+}
+
+const void print_origin_map(const map<int, int> &_map)
+{
+    for (pair<int, int> mPair : _map) 
+    {
+        cout<<"("<<mPair.first<<","<<mPair.second<<"):"<< "|";
+    }
+    cout<<endl;
 }

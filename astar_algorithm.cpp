@@ -7,6 +7,7 @@
 #include <thread>
 #include <vector>
 #include "mnode.h"
+#include "debug_tool.h"
 #include "astar_algorithm.h"
 using std::cout;
 using std::endl;
@@ -73,13 +74,16 @@ void BFS(Map &aMap, const MNode &startNode, const MNode &endNode, map<int, int>&
     while(!waveList.empty())
     {
         MNode ckNode = waveList.front();
-        ckNode.NStateSetter(ENodeState::FINDDING);
+        if(!ckNode.IsSamePos(startNode) && !ckNode.IsSamePos(endNode))
+        {
+            ckNode.NStateSetter(ENodeState::FINDDING);
+        }
         aMap.Draw(ckNode);
         nbList = aMap.GetNeighbors(ckNode, nbList);
         
         //map.Draw(nbList);
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
-        refresh();
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        //refresh();
         for ( MNode nextNode: nbList) 
         {
             //如果还没有检查过，插入到下一个要找的步骤
