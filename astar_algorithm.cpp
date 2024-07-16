@@ -82,13 +82,13 @@ void BFS(Map &aMap, const MNode &startNode, const MNode &endNode, map<int, int>&
         nbList = aMap.GetNeighbors(ckNode, nbList);
         
         //map.Draw(nbList);
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
         //refresh();
         for ( MNode nextNode: nbList) 
         {
             //如果还没有检查过，插入到下一个要找的步骤
             auto checkedFun = [nextNode](MNode node){return node.IsSamePos(nextNode); };
-            if(originMap.find(aMap.GetNodeNum(ckNode)) == originMap.cend())
+            if(originMap.find(aMap.GetNodeNum(nextNode)) == originMap.cend())
             {
                 originMap.insert(make_pair<int, int>(aMap.GetNodeNum(nextNode), aMap.GetNodeNum(ckNode)));
             }

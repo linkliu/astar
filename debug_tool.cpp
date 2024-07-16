@@ -1,12 +1,17 @@
 #include "debug_tool.h"
 #include "map.h"
 #include "mnode.h"
+#include <algorithm>
 #include <chrono>
+#include <cstdlib>
 #include <curses.h>
 #include <iostream>
 #include <thread>
+#include <utility>
+#include <vector>
 using std::cout;
 using std::endl;
+using std::vector;
 void print_map(Map &tMap)
 {
     for (int firdex = 0; firdex < tMap.GetMapRow(); firdex++) 
@@ -27,7 +32,23 @@ const void print_map_path(const map<int, int>& _map, Map& tMap)
         cout<<"invalid path map or tMap!"<<endl;
         return;
     }
-
+    //auto cp_fun = [](pair<int, int> &a, pair<int, int> &b) {
+    //  return a.second < b.second;
+    //};
+    //vector<pair<int, int>> mVec;
+    //for (pair<int, int> mPair : _map) {
+    //    mVec.push_back(mPair);
+    //}
+    //std::sort(mVec.begin(), mVec.end(), cp_fun);
+    //for (pair<int, int> vPair : mVec) {
+    //    pair<int, int> firPair = tMap.ExchNumToMapIndex(vPair.first);
+    //    pair<int, int> secPair = tMap.ExchNumToMapIndex(vPair.second);
+    //    MNode &node1 = tMap.GetNode(firPair.first, firPair.second);
+    //    MNode &node2 = tMap.GetNode(secPair.first, secPair.second);
+    //    cout << "node:" << vPair.first << " in "
+    //         << " node:" << vPair.second << "->" << node2.JudgeDir(node1)
+    //         << endl;
+    //}
     for (pair<int, int> mPair: _map) 
     {
         pair<int, int> firPair = tMap.ExchNumToMapIndex(mPair.first);
