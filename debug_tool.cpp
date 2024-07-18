@@ -25,7 +25,7 @@ void print_map(Map &tMap)
     }
 }
 
-const void print_map_path(const map<int, int>& _map, Map& tMap)
+const void print_map_path(const map<int, int>& _map, Map& tMap, MNode& startNode, MNode&endNode)
 {
     if(_map.size()<=0 || tMap.Size() <= 0)
     {
@@ -55,8 +55,11 @@ const void print_map_path(const map<int, int>& _map, Map& tMap)
         pair<int, int> secPair = tMap.ExchNumToMapIndex(mPair.second);
         MNode& node1 = tMap.GetNode(firPair.first, firPair.second);
         MNode& node2 = tMap.GetNode(secPair.first, secPair.second);
-        node1.NDirSetter(node1.JudgeDir(node2));
-        tMap.Draw(node1);
+		if(!node1.IsSamePos(startNode) && !node1.IsSamePos(endNode))
+		{
+			node1.NDirSetter(node1.JudgeDir(node2));
+			tMap.Draw(node1);
+		}
         //std::this_thread::sleep_for(std::chrono::seconds(1));
         //refresh();
     }

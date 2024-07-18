@@ -45,7 +45,7 @@ void ConstructMap(Map &aMap)
             for (pair<int, int> miPair : ePair.second) 
             {
                 MNode& node = aMap.GetNode(miPair.first, miPair.second);
-                node.NtypeSetter(ePair.first);
+                node.NTypeSetter(ePair.first);
                 //cout<<node.NType<<"$->"<<node.str<<",";
                 aMap.Draw(node);
             }
@@ -77,12 +77,12 @@ void BFS(Map &aMap, const MNode &startNode, const MNode &endNode, map<int, int>&
         if(!ckNode.IsSamePos(startNode) && !ckNode.IsSamePos(endNode))
         {
             ckNode.NStateSetter(ENodeState::FINDDING);
+			aMap.Draw(ckNode);
         }
-        aMap.Draw(ckNode);
         nbList = aMap.GetNeighbors(ckNode, nbList);
         
         //map.Draw(nbList);
-        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
         //refresh();
         for ( MNode nextNode: nbList) 
         {
@@ -95,7 +95,10 @@ void BFS(Map &aMap, const MNode &startNode, const MNode &endNode, map<int, int>&
             if(find_if(reachedVector.cbegin(), reachedVector.cend(), checkedFun) == reachedVector.cend())
             {
                 waveList.push_back(nextNode);
-                nextNode.NStateSetter(ENodeState::NEXT);
+				if(!nextNode.IsSamePos(startNode) && !nextNode.IsSamePos(nextNode))
+				{
+					nextNode.NStateSetter(ENodeState::NEXT);
+				}
                 reachedVector.push_back(nextNode);
             }
         }

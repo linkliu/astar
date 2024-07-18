@@ -125,6 +125,7 @@ struct MNode
         NType(_type),
         NState(_state)
     {
+		NTypeSetter(_type);
         NStateSetter(_state);
     }
     string ToString() const
@@ -140,13 +141,13 @@ struct MNode
         return mapIndex_Y == node.mapIndex_Y && mapIndex_X == node.mapIndex_X;
     }
 
-    void NtypeSetter(const ENodeType ntype)
+    void NTypeSetter(ENodeType ntype)
     {
         NType = ntype;
         str = NTStrMap[ntype];
     }
 
-    void NStateSetter(const ENodeState nstate)
+    void NStateSetter(ENodeState nstate)
     {
         NState = nstate;
         str = NSStrMap[nstate];
