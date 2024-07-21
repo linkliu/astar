@@ -123,7 +123,9 @@ void Map::buildNodes(map<int, MNode>& nMap)
     for (int i = 0; i < Size(); i++) 
     {
         pair<int, int> ipair = ExchNumToMapIndex(i); 
-        MNode node = MNode(ipair.first, ipair.second, ENodeType::NORMAL, ENodeState::NONE);
+        MNode node = MNode(ipair.first, ipair.second);
+		node.NTypeSetter(ENodeType::NORMAL);
+		node.NStateSetter(ENodeState::NONE);
         nodeMap.insert({i, node});
     }
 }
@@ -200,7 +202,7 @@ void Map::Draw(const MNode& node) const
     {
         pair<int, int> miPair = ExchMapIndexToPOS(node.mapIndex_Y, node.mapIndex_X);
         move(miPair.first, miPair.second);
-        printw("%s", node.str.c_str());
+        printw("%s", node.stateStr.c_str());
     }
 }
 

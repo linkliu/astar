@@ -1,3 +1,4 @@
+#include <asm-generic/errno.h>
 #include <bits/types/struct_tm.h>
 #include <chrono>
 #include <clocale>
@@ -20,11 +21,17 @@ int main(int argc, char* argv[])
     setlocale(LC_ALL, "");
     Map tMap(41, 81);
     cout<<"map size="<<tMap.Size();
-    tMap.DrawMap();
-    MNode startNode(3, 9, ENodeType::START, ENodeState::NONE);
-    MNode endNode(10, 19, ENodeType::END, ENodeState::NONE);
-    tMap.Draw(startNode);
-    tMap.Draw(endNode);
+    // tMap.DrawMap();
+    MNode startNode(3, 9);
+    MNode endNode(10, 19);
+	startNode.NTypeSetter(ENodeType::START);
+	startNode.NStateSetter(ENodeState::NONE);
+	endNode.NTypeSetter(ENodeType::END);
+	endNode.NStateSetter(ENodeState::NONE);
+	cout<<"startNode.str="<<startNode.typeStr<<endl;
+	cout<<"endNode.str="<<endNode.typeStr<<endl;
+    // tMap.Draw(startNode);
+    // tMap.Draw(endNode);
     //cout<<"path----------------------------------1"<<endl;
     //print_map(tMap);
     // ConstructMap(tMap);

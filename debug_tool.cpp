@@ -19,7 +19,7 @@ void print_map(Map &tMap)
         for (int secdex = 0; secdex < tMap.GetMapCol(); secdex++) 
         {
             MNode node = tMap.GetNode(secdex, firdex);
-            cout<<node.NType<<"->"<<node.str<<",";
+            cout<<node.NType<<"->"<<node.typeStr<<",";
         }
         cout<<endl;
     }

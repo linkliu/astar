@@ -109,30 +109,20 @@ struct MNode
     int mapIndex_Y = 0;
     int mapIndex_X = 0;
     int index = 0;
-    string str = "";
+    string stateStr = "";
+	string typeStr = "";
+	string dirStr = "";
     ENodeType NType = ENodeType::NORMAL;
     ENodeState NState = ENodeState::NONE;
     EDir NDir = EDir::NONE;
-
     
     MNode() = default;
-    MNode(int _mapY, int _mapX, string _str):mapIndex_Y(_mapY), mapIndex_X(_mapX), str(_str)
-    {
-    }
-    MNode(int _mapY, int _mapX, ENodeType _type, ENodeState _state):
-        mapIndex_Y(_mapY), 
-        mapIndex_X(_mapX), 
-        NType(_type),
-        NState(_state)
-    {
-		NTypeSetter(_type);
-        NStateSetter(_state);
-    }
+    MNode(int _mapY, int _mapX):mapIndex_Y(_mapY), mapIndex_X(_mapX){}
     string ToString() const
     {
         stringstream ss;
-        ss<<"posy:"<<mapIndex_Y<<",posx:"<<mapIndex_X<<",NType:"<<NType<<",NState:"<<NState<<endl;
-        ss<<"str:"<<str<<endl;
+        ss<<"posy:"<<mapIndex_Y<<",posx:"<<mapIndex_X<<",NType:"<<NType<<",NState:"<<NState<<",NDir="<<NDir<<endl;
+        ss<<"stateStr:"<<stateStr<<",typeStr:"<<typeStr<<",dirStr:"<<dirStr<<endl;
         return ss.str();
     }
 
@@ -144,19 +134,19 @@ struct MNode
     void NTypeSetter(ENodeType ntype)
     {
         NType = ntype;
-        str = NTStrMap[ntype];
+        typeStr = NTStrMap[ntype];
     }
 
     void NStateSetter(ENodeState nstate)
     {
         NState = nstate;
-        str = NSStrMap[nstate];
+        stateStr = NSStrMap[nstate];
     }
 
     void NDirSetter(const EDir dir)
     {
         NDir = dir;
-        str = NDirStrMap[dir];
+        dirStr = NDirStrMap[dir];
     }
 
     pair<int, int> GetMapIndexYX() const
