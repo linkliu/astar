@@ -40,6 +40,15 @@ enum class ENodeState
     FINDDING,
     NEXT,
 };
+
+enum class EDrawType 
+{
+	NONE,
+	STATE,
+	TYPE,
+	DIR,
+};
+
 static map<ENodeState, string> NSStrMap = 
 {
     {ENodeState::NONE, " "},

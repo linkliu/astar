@@ -196,21 +196,35 @@ void Map::Draw(const char* str, int _mapIndex_Y, int _mapIndex_X)
     }
 }
 
-void Map::Draw(const MNode& node) const
+void Map::Draw(const MNode& node, EDrawType dType) const
 {
     if(isMapIndexValid(node.mapIndex_Y, node.mapIndex_X))
     {
         pair<int, int> miPair = ExchMapIndexToPOS(node.mapIndex_Y, node.mapIndex_X);
         move(miPair.first, miPair.second);
-        printw("%s", node.stateStr.c_str());
+		switch (dType) 
+		{
+			case EDrawType::STATE:
+				printw("%s", node.stateStr.c_str());
+				break;
+			case EDrawType::TYPE:
+				printw("%s", node.typeStr.c_str());
+				break;
+			case EDrawType::DIR:
+				printw("%s", node.dirStr.c_str());
+				break;
+			default:
+				printw("%s", "er");
+
+		}
     }
 }
 
-void Map::Draw(const list<MNode> & dlist) const 
+void Map::Draw(const list<MNode> & dlist, EDrawType dType) const 
 {
     for (MNode node : dlist) 
     {
-        Draw(node);
+        Draw(node, dType);
     }
 }
 

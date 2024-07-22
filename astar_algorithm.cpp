@@ -47,7 +47,7 @@ void ConstructMap(Map &aMap)
                 MNode& node = aMap.GetNode(miPair.first, miPair.second);
                 node.NTypeSetter(ePair.first);
                 //cout<<node.NType<<"$->"<<node.str<<",";
-                aMap.Draw(node);
+                aMap.Draw(node, EDrawType::TYPE);
             }
         }
         //cout<<endl;
@@ -77,7 +77,7 @@ void BFS(Map &aMap, const MNode &startNode, const MNode &endNode, map<int, int>&
         if(!ckNode.IsSamePos(startNode) && !ckNode.IsSamePos(endNode))
         {
             ckNode.NStateSetter(ENodeState::FINDDING);
-			aMap.Draw(ckNode);
+			aMap.Draw(ckNode, EDrawType::STATE);
         }
         nbList = aMap.GetNeighbors(ckNode, nbList);
         

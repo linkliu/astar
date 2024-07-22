@@ -39,8 +39,8 @@ class Map
         void Draw(int num, int _mapIndex_Y, int _mapIndex_X);
         void Draw(char ch, int _mapIndex_Y, int _mapIndex_X);
         void Draw(const char*, int _mapIndex_Y, int _mapIndex_X);
-        void Draw(const MNode& node)const;
-        void Draw(const list<MNode> & dlist) const;
+        void Draw(const MNode& node, EDrawType)const;
+        void Draw(const list<MNode> & dlist, EDrawType) const;
         int Size() const;
         int GetCol(){return _mapCol;}
         int GetRow(){return _mapRow;}

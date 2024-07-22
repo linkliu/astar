@@ -58,7 +58,7 @@ const void print_map_path(const map<int, int>& _map, Map& tMap, MNode& startNode
 		if(!node1.IsSamePos(startNode) && !node1.IsSamePos(endNode))
 		{
 			node1.NDirSetter(node1.JudgeDir(node2));
-			tMap.Draw(node1);
+			tMap.Draw(node1, EDrawType::DIR);
 		}
         //std::this_thread::sleep_for(std::chrono::seconds(1));
         //refresh();
