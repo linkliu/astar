@@ -1,13 +1,14 @@
-#ifndef ASTAR_ALGORITHM_H
-#define ASTAR_ALGORITHM_H
-#include<queue>
+#ifndef _ASTAR_ALGORITHM_H
+#define _ASTAR_ALGORITHM_H
+#include "algorithm.h"
 #include "map.h"
-#include "mnode.h"
-
-void ConstructMap(Map& aMap);
-
-void BFS(Map& aMap, const MNode& startNode, const MNode& endNode, map<int, int>&);
-void Dijkstra(const Map& aMap, const MNode& startNode, const MNode& endNode);
-void AStar(const Map& aMap, const MNode& startNode, const MNode& endNode);
-
+class AStarAlgorithm : public Algorithm
+{
+	public:
+		AStarAlgorithm() = default;
+		AStarAlgorithm(Map& _map):Algorithm(_map){}
+		AStarAlgorithm(Map& _map, MNode& _start, MNode& _end):Algorithm(_map, _start, _end){}
+		void Resolve() override;
+		void FindPath() override;
+};
 #endif

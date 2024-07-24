@@ -30,18 +30,11 @@ int main(int argc, char* argv[])
 	endNode.NStateSetter(ENodeState::NONE);
     tMap.Draw(startNode, EDrawType::TYPE);
     tMap.Draw(endNode, EDrawType::TYPE);
-    //cout<<"path----------------------------------1"<<endl;
-    //print_map(tMap);
     ConstructMap(tMap);
-    //cout<<"path----------------------------------2"<<endl;
-    //print_map(tMap);
     refresh();
     map<int, int> originMap;
     BFS(tMap, startNode, endNode, originMap);
-    print_map_path(originMap, tMap, startNode, endNode);
     refresh();
-    //cout<<"path----------------------------------3"<<endl;
-    //print_map(tMap);
     getch();
     tMap.ClearMap();
     return EXIT_SUCCESS;
