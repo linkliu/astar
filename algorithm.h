@@ -3,6 +3,7 @@
 #include "map.h"
 #include "mnode.h"
 #include <map>
+#include <vector>
 class Algorithm
 {
 	private:
@@ -14,8 +15,8 @@ class Algorithm
 		Algorithm() = default;
 		Algorithm(Map& _map):aMap(_map){}
 		Algorithm(Map& _map, MNode& _start, MNode& _end):aMap(_map),startNode(_start), endNode(_end){}
-		virtual void Resolve() = 0;
-		virtual void FindPath() = 0;
+		virtual map<int, int> Resolve() = 0;
+		virtual std::vector<int> FindPath() = 0;
 		virtual ~Algorithm() = default;
 		
 

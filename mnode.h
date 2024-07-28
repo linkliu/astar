@@ -127,6 +127,30 @@ struct MNode
     
     MNode() = default;
     MNode(int _mapY, int _mapX):mapIndex_Y(_mapY), mapIndex_X(_mapX){}
+	MNode(const MNode&) = default;
+	MNode& operator=(const MNode&) = default;
+	MNode(MNode&& other)noexcept:mapIndex_Y(other.mapIndex_Y), mapIndex_X(other.mapIndex_X),
+		index(other.index), stateStr(other.stateStr), typeStr(other.typeStr),
+		dirStr(other.dirStr),NType(other.NType),NState(other.NState),NDir(other.NDir){}
+	MNode& operator=(MNode&&other)noexcept
+	{
+		if(this != &other)
+		{
+			mapIndex_Y = other.mapIndex_Y;
+			mapIndex_X = other.mapIndex_X;
+			index = other.index;
+			stateStr = std::move(other.stateStr);
+			typeStr = std::move(other.typeStr);
+			dirStr = std::move(other.dirStr);
+			NType = other.NType;
+			NState = other.NState;
+			NDir = other.NDir;
+			other.stateStr = nullptr;
+			other.typeStr = nullptr;
+			other.dirStr = nullptr;
+		}
+		return *this;
+	}
     string ToString() const
     {
         stringstream ss;

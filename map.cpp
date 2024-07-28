@@ -1,5 +1,6 @@
 #include"map.h"
 #include "mnode.h"
+#include <algorithm>
 #include <cmath>
 #include <curses.h>
 #include<iostream>
@@ -24,6 +25,33 @@ Map::~Map()
 {
     if(mapPtr!=nullptr)
         delwin(mapPtr);
+}
+
+Map::Map(Map&& oriRef)noexcept:_mapRow(oriRef._mapRow),_mapCol(oriRef._mapCol),
+	_nodeWidth(oriRef._nodeWidth),_nodeHeight(oriRef._nodeHeight),
+	_maxMapIndex_y(oriRef._maxMapIndex_y),_maxMapIndex_X(oriRef._maxMapIndex_X),
+	mapPtr(std::move(oriRef.mapPtr)),nodeMap(std::move(oriRef.nodeMap)),NumMap(std::move(oriRef.NumMap))
+{
+}
+
+Map& Map::operator=(Map&& other)noexcept
+{
+	if(this!=&other)
+	{
+		mapPtr = std::move(other.mapPtr);
+		nodeMap = std::move(other.nodeMap);
+		NumMap = std::move(other.NumMap);
+		_mapRow = other._mapRow;
+		_mapCol = other._mapCol;
+		_nodeWidth = other._nodeWidth;
+		_nodeHeight = other._nodeHeight;
+		_maxMapIndex_y = other._maxMapIndex_y;
+		_maxMapIndex_X = other._maxMapIndex_X;
+		other.mapPtr = nullptr;
+		nodeMap.clear();
+		NumMap.clear();
+	}
+	return *this;
 }
 
 bool Map::isMapIndexValid(int my, int mx) const
@@ -116,6 +144,11 @@ void Map::drawGrid(int _row, int _col)
         }
     }
     refresh();
+}
+
+void Map::GenTerrain(const map<ENodeType, list<pair<int, int>>> &TerrainMap) const
+{
+	//TODO:generate map by terrain data
 }
 
 void Map::buildNodes(map<int, MNode>& nMap)

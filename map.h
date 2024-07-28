@@ -1,6 +1,7 @@
 #ifndef _MAP_H
 #define _MAP_H
 #include "mnode.h"
+#include "map_config.h"
 #include<map>
 #include <utility>
 #include<list>
@@ -11,8 +12,8 @@ using std::pair;
 class Map
 {
     private:
-        int _mapCol = 20;
         int _mapRow = 20;
+        int _mapCol = 20;
         int _nodeWidth = 4;
         int _nodeHeight = 2;
         int _maxMapIndex_y = 0;
@@ -28,6 +29,9 @@ class Map
     public:
         Map() = default;
         Map(int _row, int _col);
+		Map(const Map& orgin) = default;
+		Map(Map&&)noexcept;
+		Map& operator=(Map&&)noexcept;
         ~Map();
         map<int, char> NumMap = 
         {
@@ -35,6 +39,7 @@ class Map
         };
         void FindPath();
         void DrawMap();
+		void GenTerrain(const map<ENodeType, list<pair<int, int>>> &TerrainMap)const;
         void ClearMap();
         void Draw(int num, int _mapIndex_Y, int _mapIndex_X);
         void Draw(char ch, int _mapIndex_Y, int _mapIndex_X);
