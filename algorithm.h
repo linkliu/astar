@@ -11,6 +11,11 @@ class Algorithm
 		MNode startNode;
 		MNode endNode;
 
+	protected:
+		Map& GetMap();
+		MNode& GetStartNode();
+		MNode& GetEndNode();
+
 	public:
 		Algorithm() = default;
 		Algorithm(Map& _map):aMap(_map){}

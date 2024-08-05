@@ -146,9 +146,21 @@ void Map::drawGrid(int _row, int _col)
     refresh();
 }
 
-void Map::GenTerrain(const map<ENodeType, list<pair<int, int>>> &TerrainMap) const
+void Map::GenTerrain(const map<ENodeType, list<pair<int, int>>> &TerrainMap) 
 {
-	//TODO:generate map by terrain data
+    if (Size() > 0) 
+	{
+        // generate map by terrain data
+        for (pair<ENodeType, list<pair<int, int>>> tPair : TerrainMap) 
+		{
+            for (pair<int, int> ePair : tPair.second) 
+			{
+				MNode& node = GetNode(ePair.first, ePair.second);
+				node.NTypeSetter(tPair.first);
+				Draw(node, EDrawType::TYPE);
+            }
+        }
+    }
 }
 
 void Map::buildNodes(map<int, MNode>& nMap)

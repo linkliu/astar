@@ -39,7 +39,7 @@ class Map
         };
         void FindPath();
         void DrawMap();
-		void GenTerrain(const map<ENodeType, list<pair<int, int>>> &TerrainMap)const;
+		void GenTerrain(const map<ENodeType, list<pair<int, int>>> &TerrainMap);
         void ClearMap();
         void Draw(int num, int _mapIndex_Y, int _mapIndex_X);
         void Draw(char ch, int _mapIndex_Y, int _mapIndex_X);
