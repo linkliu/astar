@@ -151,6 +151,7 @@ struct MNode
 		}
 		return *this;
 	}
+
     string ToString() const
     {
         stringstream ss;
@@ -163,6 +164,16 @@ struct MNode
     {
         return mapIndex_Y == node.mapIndex_Y && mapIndex_X == node.mapIndex_X;
     }
+
+	bool operator==(const MNode& node) const
+	{
+		return mapIndex_Y==node.mapIndex_Y && mapIndex_X==node.mapIndex_X;
+	}
+
+	bool operator!=(const MNode& node) const
+	{
+		return !(*this == node);
+	}
 
     void NTypeSetter(ENodeType ntype)
     {

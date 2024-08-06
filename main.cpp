@@ -1,19 +1,13 @@
 #include <asm-generic/errno.h>
 #include <bits/types/struct_tm.h>
-#include <chrono>
 #include <clocale>
 #include <cstdlib>
-#include<iostream>
-#include<string>
-#include<queue>
-#include<thread>
-#include "debug_tool.h"
+#include <iostream>
+#include <string>
+#include "bfs_algorithm.h"
 #include "mnode.h"
-#include"map.h"
-#include "astar_algorithm.h"
+#include "map.h"
 using std::cout;
-using std::cin;
-using std::endl;
 using std::string;
 
 int main(int argc, char* argv[])
@@ -30,10 +24,8 @@ int main(int argc, char* argv[])
 	endNode.NStateSetter(ENodeState::NONE);
     tMap.Draw(startNode, EDrawType::TYPE);
     tMap.Draw(endNode, EDrawType::TYPE);
-    ConstructMap(tMap);
-    refresh();
-    map<int, int> originMap;
-    BFS(tMap, startNode, endNode, originMap);
+	BFSAlgorithm bfs(tMap, startNode, endNode);
+    map<int, int> bfsSolveMap = bfs.Resolve();
     refresh();
     getch();
     tMap.ClearMap();

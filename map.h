@@ -56,7 +56,7 @@ class Map
         pair<int, int> ExchNumToMapIndex(int num) const;
         pair<int, int> ExchMapIndexToPOS(int _mapIndex_Y, int _mapIndex_X) const;
         int ExchMapIndexToNum(int _mapIndex_Y, int _mapIndex_X) const;
-        list<MNode>& GetNeighbors(const MNode& node, list<MNode>& neighborsList);
+        list<MNode> GetNeighbors(const MNode& node);
         bool NodeCheck(const MNode& node);
 };
 #endif

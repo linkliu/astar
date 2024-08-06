@@ -1,12 +1,12 @@
-#include"map.h"
+#include "map.h"
 #include "mnode.h"
 #include <algorithm>
 #include <cmath>
 #include <curses.h>
-#include<iostream>
+#include <iostream>
 #include <list>
 #include <ncurses.h>
-#include<sstream>
+#include <sstream>
 #include <stdexcept>
 #include <utility>
 using std::cout;
@@ -372,8 +372,9 @@ void Map::filterNeightbor(pair<int, int> &npair, list<MNode> & nlist)
     }
 }
 
-list<MNode>& Map::GetNeighbors(const MNode& node, list<MNode>& neighborsList)
+list<MNode> Map::GetNeighbors(const MNode& node)
 {
+	list<MNode> neighborsList;
     if(!neighborsList.empty())
     {
         neighborsList.clear();
