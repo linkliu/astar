@@ -5,6 +5,7 @@
 #include <curses.h>
 #include <iostream>
 #include <list>
+#include <map>
 #include <ncurses.h>
 #include <sstream>
 #include <stdexcept>
@@ -394,4 +395,34 @@ list<MNode> Map::GetNeighbors(const MNode& node)
     filterNeightbor(downPair, neighborsList);
     return neighborsList;
 }
+
+void Map::DrawTerrain(const map<ENodeType, list<pair<int, int>>>& terMap)
+{
+	if(Size() > 0 && terMap.size()>0)
+	{
+		for (pair<ENodeType, list<pair<int, int>>> firPair : terMap) 
+		{
+			ENodeType &nType = firPair.first;
+			list<pair<int, int>>& typeList = firPair.second;
+			for (pair<int, int> secPair : typeList) 
+			{
+				MNode& terNode = GetNode(secPair.first, secPair.second);
+				terNode.NTypeSetter(nType);
+				Draw(terNode, EDrawType::TYPE);
+			}
+		}
+		refresh();
+	}
+}
+
+void Map::DrawOriginPath(const map<int, int>& orimap)
+{
+
+}
+
+void Map::DrawFinalPath(const vector<int>& pathVec)
+{
+
+}
+
 

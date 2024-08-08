@@ -12,7 +12,7 @@ class DIJAlgorithm : public Algorithm
 		DIJAlgorithm() = default;
 		DIJAlgorithm(Map& _map):Algorithm(_map){}
 		DIJAlgorithm(Map& _map, MNode& _start, MNode& _end):Algorithm(_map, _start, _end){}
-		map<int, map> Resolve() override;
+		map<int, int> Resolve() override;
 		vector<int> FindPath() override;
 };
 #endif

@@ -5,9 +5,11 @@
 #include<map>
 #include <utility>
 #include<list>
+#include <vector>
 using std::map;
 using std::list;
 using std::pair;
+using std::vector;
 
 class Map
 {
@@ -58,5 +60,8 @@ class Map
         int ExchMapIndexToNum(int _mapIndex_Y, int _mapIndex_X) const;
         list<MNode> GetNeighbors(const MNode& node);
         bool NodeCheck(const MNode& node);
+		void DrawTerrain(const map<ENodeType, list<pair<int, int>>>& terMap);
+		void DrawOriginPath(const map<int, int> & oriMap);
+		void DrawFinalPath(const vector<int>& pathVec);
 };
 #endif

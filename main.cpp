@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include "bfs_algorithm.h"
+#include "map_config.h"
 #include "mnode.h"
 #include "map.h"
 using std::cout;
@@ -24,6 +25,7 @@ int main(int argc, char* argv[])
 	endNode.NStateSetter(ENodeState::NONE);
     tMap.Draw(startNode, EDrawType::TYPE);
     tMap.Draw(endNode, EDrawType::TYPE);
+	tMap.DrawTerrain(MapConfig::TerrainMap);
 	BFSAlgorithm bfs(tMap, startNode, endNode);
     map<int, int> bfsSolveMap = bfs.Resolve();
     refresh();

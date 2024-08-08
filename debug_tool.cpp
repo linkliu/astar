@@ -1,17 +1,11 @@
 #include "debug_tool.h"
 #include "map.h"
 #include "mnode.h"
-#include <algorithm>
-#include <chrono>
 #include <cstdlib>
 #include <curses.h>
 #include <iostream>
-#include <thread>
-#include <utility>
-#include <vector>
 using std::cout;
 using std::endl;
-using std::vector;
 void print_map(Map &tMap)
 {
     for (int firdex = 0; firdex < tMap.GetMapRow(); firdex++) 
