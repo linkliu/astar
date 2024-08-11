@@ -396,6 +396,7 @@ list<MNode> Map::GetNeighbors(const MNode& node)
     return neighborsList;
 }
 
+//绘制地形
 void Map::DrawTerrain(const map<ENodeType, list<pair<int, int>>>& terMap)
 {
 	if(Size() > 0 && terMap.size()>0)
@@ -414,15 +415,32 @@ void Map::DrawTerrain(const map<ENodeType, list<pair<int, int>>>& terMap)
 		refresh();
 	}
 }
-
-void Map::DrawOriginPath(const map<int, int>& orimap)
+//绘制检测来源
+void Map::DrawOriginPath(const map<int, int>& oriMap, const MNode& startNode, const MNode& endNode)
 {
-
+	if(oriMap.size()<=0 || Size()<=0)
+	{
+		cout<<"invalid origin map or Map!"<<endl;
+		return;
+	}
+	for (pair<int, int> mPair : oriMap) 
+	{
+		pair<int, int> firPair = ExchNumToMapIndex(mPair.first);
+		pair<int, int> secPair = ExchNumToMapIndex(mPair.second);
+		MNode& node1 = GetNode(firPair.first, firPair.second);
+		MNode& node2 = GetNode(secPair.first, secPair.second);
+		if(node1!=startNode && node1!=endNode)
+		{
+			node1.NDirSetter(node1.JudgeDir(node2));
+			Draw(node1, EDrawType::DIR);
+		}
+	}
 }
 
-void Map::DrawFinalPath(const vector<int>& pathVec)
+//绘制最终路径
+void Map::DrawFinalPath(const vector<int>& pathVec, const MNode& startNode, const MNode& endNode)
 {
-
+	
 }
 
 

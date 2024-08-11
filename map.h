@@ -61,7 +61,7 @@ class Map
         list<MNode> GetNeighbors(const MNode& node);
         bool NodeCheck(const MNode& node);
 		void DrawTerrain(const map<ENodeType, list<pair<int, int>>>& terMap);
-		void DrawOriginPath(const map<int, int> & oriMap);
-		void DrawFinalPath(const vector<int>& pathVec);
+		void DrawOriginPath(const map<int, int> & oriMap, const MNode&, const MNode&);
+		void DrawFinalPath(const vector<int>& pathVec, const MNode&, const MNode&);
 };
 #endif

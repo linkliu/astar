@@ -32,7 +32,7 @@ map<int, int> BFSAlgorithm::Resolve()
 			if(solveMap.find(aMap.GetNodeNum(nextNode)) == solveMap.cend())
 			{
 				//test,log out
-				std::this_thread::sleep_for(std::chrono::milliseconds(50));
+				std::this_thread::sleep_for(std::chrono::milliseconds(10));
 				if(nextNode!=startNode && nextNode!=endNode)
 				{
 					nextNode.NStateSetter(ENodeState::FINDDING);
