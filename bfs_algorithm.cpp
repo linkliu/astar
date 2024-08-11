@@ -1,6 +1,7 @@
 #include "bfs_algorithm.h"
+#include "map.h"
 #include "mnode.h"
-#include <chrono>
+#include <iostream>
 #include <ncurses.h>
 #include <thread>
 #include <utility>
@@ -49,9 +50,32 @@ map<int, int> BFSAlgorithm::Resolve()
 }
 
 
-vector<int> BFSAlgorithm::FindPath()
+vector<int> BFSAlgorithm::FindPath(map<int, int>& oriMap)
 {
+	Map& aMap = GetMap();
+	MNode& startNode = GetStartNode();
+	MNode& endNode = GetEndNode();
 	vector<int> pathVec;
+	if(!aMap.NodeCheck(startNode) || !aMap.NodeCheck(endNode) || aMap.Size()<=0)
+	{
+		stringstream ss;
+		ss<<"invalid startNode:"<<startNode.ToString()<<", or endNode:"<<endNode.ToString()<<endl;
+		cout<<ss.str();
+		endwin();
+		return pathVec;
+	}
+	int checkNodeNum = aMap.GetNodeNum(endNode); 
+	while (oriMap.find(checkNodeNum) != oriMap.cend()) 
+	{
+		pathVec.push_back(checkNodeNum);
+		cout<<"checkNodeNum="<<checkNodeNum;
+		checkNodeNum = oriMap.find(checkNodeNum)->second;
+		if(checkNodeNum == aMap.GetNodeNum(startNode))
+		{
+			pathVec.push_back(checkNodeNum);
+			break;
+		}
+	}
 	return pathVec;
 }
 

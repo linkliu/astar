@@ -12,6 +12,6 @@ class BFSAlgorithm : public Algorithm
 		BFSAlgorithm(Map& _map):Algorithm(_map){}
 		BFSAlgorithm(Map& _map, MNode& _start, MNode& _end):Algorithm(_map, _start, _end){}
 		map<int, int> Resolve() override;
-		vector<int> FindPath() override;
+		vector<int> FindPath(map<int, int>&) override;
 };
 #endif

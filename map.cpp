@@ -4,7 +4,6 @@
 #include <cmath>
 #include <curses.h>
 #include <iostream>
-#include <list>
 #include <map>
 #include <ncurses.h>
 #include <sstream>
@@ -440,7 +439,23 @@ void Map::DrawOriginPath(const map<int, int>& oriMap, const MNode& startNode, co
 //绘制最终路径
 void Map::DrawFinalPath(const vector<int>& pathVec, const MNode& startNode, const MNode& endNode)
 {
-	
+	if(pathVec.size()<=0 || Size()<=0)
+	{
+		cout<<"invalid pathVec or Map"<<endl;
+		return;
+	}
+	for (auto np = pathVec.begin(); np != pathVec.end() - 1; np++) 
+	{
+		pair<int, int> firPair = ExchNumToMapIndex(*np);
+		pair<int, int> secPair = ExchNumToMapIndex(*(np+1));
+		MNode& node1 = GetNode(firPair.first, firPair.second);
+		MNode& node2 = GetNode(secPair.first, secPair.second);
+		node1.NDirSetter(node2.JudgeDir(node1));
+		if(node1!=endNode)
+		{
+			Draw(node1, EDrawType::DIR);
+		}
+	}
 }
 
 

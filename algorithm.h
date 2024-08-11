@@ -21,7 +21,7 @@ class Algorithm
 		Algorithm(Map& _map):aMap(_map){}
 		Algorithm(Map& _map, MNode& _start, MNode& _end):aMap(_map),startNode(_start), endNode(_end){}
 		virtual map<int, int> Resolve() = 0;
-		virtual std::vector<int> FindPath() = 0;
+		virtual std::vector<int> FindPath(map<int, int>&) = 0;
 		virtual ~Algorithm() = default;
 		
 

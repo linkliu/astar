@@ -28,7 +28,9 @@ int main(int argc, char* argv[])
 	tMap.DrawTerrain(MapConfig::TerrainMap);
 	BFSAlgorithm bfs(tMap, startNode, endNode);
     map<int, int> bfsSolveMap = bfs.Resolve();
-	tMap.DrawOriginPath(bfsSolveMap, startNode, endNode);
+	// tMap.DrawOriginPath(bfsSolveMap, startNode, endNode);
+	vector<int> pathVec = bfs.FindPath(bfsSolveMap);
+	tMap.DrawFinalPath(pathVec, startNode, endNode);
     refresh();
     getch();
     tMap.ClearMap();
