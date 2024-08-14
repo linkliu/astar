@@ -30,7 +30,7 @@ map<int, int> BFSAlgorithm::Resolve()
 		for (MNode nextNode : neighborList) 
 		{
 			//还没有查询过
-			if(solveMap.find(aMap.GetNodeNum(nextNode)) == solveMap.cend())
+			if(solveMap.find(aMap.GetNodeNum(nextNode)) == solveMap.cend() && nextNode != startNode)
 			{
 				//test,log out
 				std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -68,13 +68,16 @@ vector<int> BFSAlgorithm::FindPath(map<int, int>& oriMap)
 	while (oriMap.find(checkNodeNum) != oriMap.cend()) 
 	{
 		pathVec.push_back(checkNodeNum);
-		cout<<"checkNodeNum="<<checkNodeNum;
 		checkNodeNum = oriMap.find(checkNodeNum)->second;
-		if(checkNodeNum == aMap.GetNodeNum(startNode))
-		{
-			pathVec.push_back(checkNodeNum);
-			break;
-		}
+	}
+	//有路径
+	if(checkNodeNum == aMap.GetNodeNum(startNode))
+	{
+		pathVec.push_back(checkNodeNum);
+	}
+	else //没有找到
+	{
+		pathVec.clear();
 	}
 	return pathVec;
 }

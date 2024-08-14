@@ -1,6 +1,6 @@
 #include "map.h"
 #include "mnode.h"
-#include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <curses.h>
 #include <iostream>
@@ -8,6 +8,7 @@
 #include <ncurses.h>
 #include <sstream>
 #include <stdexcept>
+#include <thread>
 #include <utility>
 using std::cout;
 using std::stringstream;

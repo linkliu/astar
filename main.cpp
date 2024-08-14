@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
     cout<<"map size="<<tMap.Size();
     tMap.DrawMap();
     MNode startNode(3, 9);
-    MNode endNode(10, 19);
+    MNode endNode(10, 0);
 	startNode.NTypeSetter(ENodeType::START);
 	startNode.NStateSetter(ENodeState::NONE);
 	endNode.NTypeSetter(ENodeType::END);
