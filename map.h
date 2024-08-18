@@ -18,7 +18,7 @@ class Map
         int _mapCol = 20;
         int _nodeWidth = 4;
         int _nodeHeight = 2;
-        int _maxMapIndex_y = 0;
+        int _maxMapIndex_Y = 0;
         int _maxMapIndex_X = 0;
         WINDOW* mapPtr = nullptr;
         map<int, MNode> nodeMap;
@@ -52,7 +52,7 @@ class Map
         int GetCol(){return _mapCol;}
         int GetRow(){return _mapRow;}
         int GetMapCol(){return _maxMapIndex_X;};
-        int GetMapRow(){return _maxMapIndex_y;};
+        int GetMapRow(){return _maxMapIndex_Y;};
         MNode& GetNode(int _mapIndex_Y, int _mapIndex_X);
         const int GetNodeNum(const MNode& node) const;
         pair<int, int> ExchNumToMapIndex(int num) const;

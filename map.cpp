@@ -18,7 +18,7 @@ using std::make_pair;
 
 Map::Map(int _row, int _col):_mapRow(_row), _mapCol(_col)
 {
-    _maxMapIndex_y = std::floor(_mapRow/_nodeHeight);
+    _maxMapIndex_Y = std::floor(_mapRow/_nodeHeight);
     _maxMapIndex_X = std::floor(_mapCol/_nodeWidth);
 }
 
@@ -30,7 +30,7 @@ Map::~Map()
 
 Map::Map(Map&& oriRef)noexcept:_mapRow(oriRef._mapRow),_mapCol(oriRef._mapCol),
 	_nodeWidth(oriRef._nodeWidth),_nodeHeight(oriRef._nodeHeight),
-	_maxMapIndex_y(oriRef._maxMapIndex_y),_maxMapIndex_X(oriRef._maxMapIndex_X),
+	_maxMapIndex_Y(oriRef._maxMapIndex_Y),_maxMapIndex_X(oriRef._maxMapIndex_X),
 	mapPtr(std::move(oriRef.mapPtr)),nodeMap(std::move(oriRef.nodeMap)),NumMap(std::move(oriRef.NumMap))
 {
 }
@@ -46,7 +46,7 @@ Map& Map::operator=(Map&& other)noexcept
 		_mapCol = other._mapCol;
 		_nodeWidth = other._nodeWidth;
 		_nodeHeight = other._nodeHeight;
-		_maxMapIndex_y = other._maxMapIndex_y;
+		_maxMapIndex_Y = other._maxMapIndex_Y;
 		_maxMapIndex_X = other._maxMapIndex_X;
 		other.mapPtr = nullptr;
 		nodeMap.clear();
@@ -57,7 +57,7 @@ Map& Map::operator=(Map&& other)noexcept
 
 bool Map::isMapIndexValid(int my, int mx) const
 {
-    if(my>=0 && my<_maxMapIndex_y && mx>=0 && mx<_maxMapIndex_X)
+    if(my>=0 && my<_maxMapIndex_Y && mx>=0 && mx<_maxMapIndex_X)
     {
         return true;
     }
@@ -276,7 +276,7 @@ void Map::Draw(const list<MNode> & dlist, EDrawType dType) const
 
 int Map::Size() const
 {
-    return _maxMapIndex_X*_maxMapIndex_y;
+    return _maxMapIndex_X*_maxMapIndex_Y;
 }
 
 const int Map::GetNodeNum(const MNode &node) const
@@ -454,7 +454,9 @@ void Map::DrawFinalPath(const vector<int>& pathVec, const MNode& startNode, cons
 		node1.NDirSetter(node2.JudgeDir(node1));
 		if(node1!=endNode)
 		{
+			std::this_thread::sleep_for(std::chrono::milliseconds(300));
 			Draw(node1, EDrawType::DIR);
+			refresh();
 		}
 	}
 }
