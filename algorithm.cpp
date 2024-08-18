@@ -7,12 +7,12 @@ Map& Algorithm::GetMap()
 	return aMap;
 }
 
-MNode& Algorithm::GetStartNode()
+const MNode& Algorithm::GetStartNode() const
 {
 	return startNode;
 }
 
-MNode& Algorithm::GetEndNode()
+const MNode& Algorithm::GetEndNode() const
 {
 	return endNode;
 }

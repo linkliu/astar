@@ -10,8 +10,8 @@ using std::make_pair;
 map<int, int> BFSAlgorithm::Resolve()
 {
 	Map& aMap = GetMap();
-	MNode& startNode = GetStartNode();
-	MNode& endNode = GetEndNode();
+	const MNode& startNode = GetStartNode();
+	const MNode& endNode = GetEndNode();
 	map<int, int> solveMap;
 	if(!aMap.NodeCheck(startNode) || !aMap.NodeCheck(endNode) || aMap.Size() < 0)
 	{
@@ -50,11 +50,11 @@ map<int, int> BFSAlgorithm::Resolve()
 }
 
 
-vector<int> BFSAlgorithm::FindPath(map<int, int>& oriMap)
+vector<int> BFSAlgorithm::FindPath(map<int, int>& solveMap)
 {
-	Map& aMap = GetMap();
-	MNode& startNode = GetStartNode();
-	MNode& endNode = GetEndNode();
+	const Map& aMap = GetMap();
+	const MNode& startNode = GetStartNode();
+	const MNode& endNode = GetEndNode();
 	vector<int> pathVec;
 	if(!aMap.NodeCheck(startNode) || !aMap.NodeCheck(endNode) || aMap.Size()<=0)
 	{
@@ -65,10 +65,10 @@ vector<int> BFSAlgorithm::FindPath(map<int, int>& oriMap)
 		return pathVec;
 	}
 	int checkNodeNum = aMap.GetNodeNum(endNode); 
-	while (oriMap.find(checkNodeNum) != oriMap.cend()) 
+	while (solveMap.find(checkNodeNum) != solveMap.cend()) 
 	{
 		pathVec.push_back(checkNodeNum);
-		checkNodeNum = oriMap.find(checkNodeNum)->second;
+		checkNodeNum = solveMap.find(checkNodeNum)->second;
 	}
 	//有路径
 	if(checkNodeNum == aMap.GetNodeNum(startNode))
@@ -81,4 +81,46 @@ vector<int> BFSAlgorithm::FindPath(map<int, int>& oriMap)
 	}
 	return pathVec;
 }
+
+int BFSAlgorithm::CalStepsToStart(const MNode& cnode, const map<int, int>& solveMap)
+{
+	 Map& aMap = GetMap();
+	 if(!aMap.NodeCheck(cnode) || solveMap.size() <= 0)
+	 {
+		stringstream ss;
+		ss<<"invalid cnode:"<<cnode.ToString()<<", or solveMap.size=:"<<solveMap.size()<<endl;
+		cout<<ss.str();
+		endwin();
+		return -1;
+	 }
+	 const MNode& startNode = GetStartNode();
+	 int checkNodeNum = aMap.GetNodeNum(cnode);
+	 int step = 0;
+	 while (solveMap.find(checkNodeNum) != solveMap.cend()) 
+	 {
+		 step+=1;
+		 checkNodeNum = solveMap.find(checkNodeNum)->second;
+	 }
+	 return step;
+}
+
+void BFSAlgorithm::DrawNodeSteps(const map<int, int>& solveMap)
+{
+	Map& aMap = GetMap();
+	const MNode& startNode = GetStartNode();
+	const MNode& endNode = GetEndNode();
+	for (int firdex = 0; firdex < aMap.Size(); firdex++) 
+	{
+		pair<int, int> firPair = aMap.ExchNumToMapIndex(firdex);
+		MNode& node = aMap.GetNode(firPair.first, firPair.second);
+		int steps = CalStepsToStart(node, solveMap);
+		if(node != startNode && node != endNode && aMap.Reacheable(node))
+		{
+			aMap.Draw(steps, firPair.first, firPair.second);
+		}
+	}
+	refresh();
+}
+
+
 

@@ -13,8 +13,8 @@ class Algorithm
 
 	protected:
 		Map& GetMap();
-		MNode& GetStartNode();
-		MNode& GetEndNode();
+		const MNode& GetStartNode() const;
+		const MNode& GetEndNode() const;
 
 	public:
 		Algorithm() = default;

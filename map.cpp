@@ -76,7 +76,7 @@ bool Map::isNumValid(int num) const
     return num >= 0 && num < Size();
 }
 
-bool Map::NodeCheck(const MNode &node)
+bool Map::NodeCheck(const MNode &node) const
 {
     return isMapIndexValid(node.mapIndex_Y, node.mapIndex_X);
 }
@@ -337,6 +337,11 @@ bool Map::isReachable(const MNode &node) const
         return true;
     }
     return false;
+}
+
+bool Map::Reacheable(const MNode& node) const
+{
+	return isReachable(node);
 }
 
 MNode& Map::GetNode(int _mapIndex_Y, int _mapIndex_X)

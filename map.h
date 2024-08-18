@@ -59,9 +59,10 @@ class Map
         pair<int, int> ExchMapIndexToPOS(int _mapIndex_Y, int _mapIndex_X) const;
         int ExchMapIndexToNum(int _mapIndex_Y, int _mapIndex_X) const;
         list<MNode> GetNeighbors(const MNode& node);
-        bool NodeCheck(const MNode& node);
+        bool NodeCheck(const MNode& node) const;
 		void DrawTerrain(const map<ENodeType, list<pair<int, int>>>& terMap);
 		void DrawOriginPath(const map<int, int> & oriMap, const MNode&, const MNode&);
 		void DrawFinalPath(const vector<int>& pathVec, const MNode&, const MNode&);
+		bool Reacheable(const MNode&) const;
 };
 #endif

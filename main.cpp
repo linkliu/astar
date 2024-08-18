@@ -29,8 +29,9 @@ int main(int argc, char* argv[])
 	BFSAlgorithm bfs(tMap, startNode, endNode);
     map<int, int> bfsSolveMap = bfs.Resolve();
 	// tMap.DrawOriginPath(bfsSolveMap, startNode, endNode);
-	vector<int> pathVec = bfs.FindPath(bfsSolveMap);
-	tMap.DrawFinalPath(pathVec, startNode, endNode);
+	// vector<int> pathVec = bfs.FindPath(bfsSolveMap);
+	// tMap.DrawFinalPath(pathVec, startNode, endNode);
+	bfs.DrawNodeSteps(bfsSolveMap);
     refresh();
     getch();
     tMap.ClearMap();
