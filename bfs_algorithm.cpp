@@ -26,7 +26,11 @@ map<int, int> BFSAlgorithm::Resolve()
 	while(!waveList.empty())
 	{
 		MNode & checkNode = waveList.front();
-		list<MNode> neighborList = aMap.GetNeighbors(checkNode);
+		if(checkNode == endNode)
+		{
+			break;
+		}
+		list<MNode> neighborList = aMap.GetFilterNeighbors(checkNode);
 		for (MNode nextNode : neighborList) 
 		{
 			//还没有查询过

@@ -28,6 +28,7 @@ class Map
         bool isReachable(const MNode& node) const;
         void drawGrid(int _row, int _col);
         void buildNodes(map<int, MNode>& nMap);
+		list<pair<int, int>> enumsNeighbors(const MNode&);
     public:
         Map() = default;
         Map(int _row, int _col);
@@ -58,6 +59,7 @@ class Map
         pair<int, int> ExchNumToMapIndex(int num) const;
         pair<int, int> ExchMapIndexToPOS(int _mapIndex_Y, int _mapIndex_X) const;
         int ExchMapIndexToNum(int _mapIndex_Y, int _mapIndex_X) const;
+        list<MNode> GetFilterNeighbors(const MNode& node);
         list<MNode> GetNeighbors(const MNode& node);
         bool NodeCheck(const MNode& node) const;
 		void DrawTerrain(const map<ENodeType, list<pair<int, int>>>& terMap);

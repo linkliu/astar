@@ -75,6 +75,17 @@ static map<EDir, string> NDirStrMap =
     {EDir::DOWN, "⇩"},
 };
 
+static map<ENodeType, int> NCostMap = 
+{
+	{ENodeType::NONE, 1},
+	{ENodeType::NORMAL, 1},
+	{ENodeType::START, 1},
+	{ENodeType::END, 1},
+	{ENodeType::WATER, 6},
+	{ENodeType::BARRIER, 3},
+
+};
+
 inline ostream& operator<<(ostream&os, ENodeType nodeType)
 {
     switch (nodeType) 
@@ -124,6 +135,7 @@ struct MNode
     ENodeType NType = ENodeType::NORMAL;
     ENodeState NState = ENodeState::NONE;
     EDir NDir = EDir::NONE;
+	int nodeCost = 0;
     
     MNode() = default;
     MNode(int _mapY, int _mapX):mapIndex_Y(_mapY), mapIndex_X(_mapX){}
@@ -175,10 +187,21 @@ struct MNode
 		return !(*this == node);
 	}
 
+	bool operator<(const MNode& node) const
+	{
+		return nodeCost < node.nodeCost;
+	}
+
+	bool operator>(const MNode& node) const
+	{
+		return nodeCost > node.nodeCost;
+	}
+
     void NTypeSetter(ENodeType ntype)
     {
         NType = ntype;
         typeStr = NTStrMap[ntype];
+		nodeCost = NCostMap[NType];
     }
 
     void NStateSetter(ENodeState nstate)

@@ -378,26 +378,43 @@ void Map::filterNeightbor(pair<int, int> &npair, list<MNode> & nlist)
     }
 }
 
+list<pair<int, int>> Map::enumsNeighbors(const MNode& node)
+{
+	list<pair<int, int>> pairList;
+	pair<int, int> nPair = node.GetMapIndexYX();
+	//LEFT
+	pairList.push_back({nPair.first, nPair.second-1});
+	//UP
+	pairList.push_back({nPair.first-1, nPair.second});
+	//RIGHT
+	pairList.push_back({nPair.first, nPair.second+1});
+	//DOWN
+	pairList.push_back({nPair.first+1, nPair.second});
+	return pairList;
+}
+
+list<MNode> Map::GetFilterNeighbors(const MNode& node)
+{
+	list<MNode> neighborsList;
+	list<pair<int, int>> pairList = enumsNeighbors(node);
+	for (pair<int, int> mPair : pairList) 
+	{
+		filterNeightbor(mPair, neighborsList);
+	}
+    return neighborsList;
+}
+
 list<MNode> Map::GetNeighbors(const MNode& node)
 {
 	list<MNode> neighborsList;
-    if(!neighborsList.empty())
-    {
-        neighborsList.clear();
-    }
-    pair<int, int> mapIndexPiar = node.GetMapIndexYX();
-    pair<int, int> leftPair = {mapIndexPiar.first, mapIndexPiar.second -1};
-    pair<int, int> upPair = {mapIndexPiar.first -1, mapIndexPiar.second};
-    pair<int, int> rightPair = {mapIndexPiar.first, mapIndexPiar.second + 1};
-    pair<int, int> downPair = {mapIndexPiar.first + 1, mapIndexPiar.second};
-    //LEFT
-    filterNeightbor(leftPair, neighborsList);
-    //UP
-    filterNeightbor(upPair,neighborsList);
-    //RIGHT
-    filterNeightbor(rightPair, neighborsList);
-    //DOWN
-    filterNeightbor(downPair, neighborsList);
+    list<pair<int, int>> pairList = enumsNeighbors(node);
+	for (pair<int, int> mPair : pairList) 
+	{
+		if(isMapIndexValid(mPair.first, mPair.second))
+		{
+			neighborsList.push_back(GetNode(mPair.first, mPair.second));
+		}
+	}
     return neighborsList;
 }
 
