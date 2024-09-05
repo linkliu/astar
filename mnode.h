@@ -81,8 +81,8 @@ static map<ENodeType, int> NCostMap =
 	{ENodeType::NORMAL, 1},
 	{ENodeType::START, 1},
 	{ENodeType::END, 1},
-	{ENodeType::WATER, 6},
-	{ENodeType::BARRIER, 3},
+	{ENodeType::WATER, 10},
+	{ENodeType::BARRIER, 10},
 
 };
 
@@ -136,13 +136,15 @@ struct MNode
     ENodeState NState = ENodeState::NONE;
     EDir NDir = EDir::NONE;
 	int nodeCost = 0;
+	int curCost = 0;
+    int meetIndex = 0;
     
     MNode() = default;
     MNode(int _mapY, int _mapX):mapIndex_Y(_mapY), mapIndex_X(_mapX){}
 	MNode(const MNode&) = default;
 	MNode& operator=(const MNode&) = default;
-	MNode(MNode&& other)noexcept:mapIndex_Y(other.mapIndex_Y), mapIndex_X(other.mapIndex_X),
-		index(other.index), stateStr(other.stateStr), typeStr(other.typeStr),
+	MNode(MNode&& other)noexcept:mapIndex_Y(other.mapIndex_Y), mapIndex_X(other.mapIndex_X),nodeCost(other.nodeCost),
+		index(other.index), stateStr(other.stateStr), typeStr(other.typeStr), curCost(other.curCost),meetIndex(other.meetIndex),
 		dirStr(other.dirStr),NType(other.NType),NState(other.NState),NDir(other.NDir){}
 	MNode& operator=(MNode&&other)noexcept
 	{
@@ -151,15 +153,15 @@ struct MNode
 			mapIndex_Y = other.mapIndex_Y;
 			mapIndex_X = other.mapIndex_X;
 			index = other.index;
-			stateStr = std::move(other.stateStr);
-			typeStr = std::move(other.typeStr);
-			dirStr = std::move(other.dirStr);
+            nodeCost = other.nodeCost;
+			curCost = other.curCost;
+			stateStr = other.stateStr;
+			typeStr = other.typeStr;
+			dirStr = other.dirStr;
 			NType = other.NType;
 			NState = other.NState;
 			NDir = other.NDir;
-			other.stateStr = nullptr;
-			other.typeStr = nullptr;
-			other.dirStr = nullptr;
+            meetIndex = other.meetIndex;
 		}
 		return *this;
 	}
@@ -189,12 +191,26 @@ struct MNode
 
 	bool operator<(const MNode& node) const
 	{
-		return nodeCost < node.nodeCost;
+        if(curCost < node.curCost)
+        {
+            return true;
+        }
+        else 
+        {
+            return meetIndex < node.meetIndex;
+        }
 	}
 
 	bool operator>(const MNode& node) const
 	{
-		return nodeCost > node.nodeCost;
+        if(curCost > node.curCost)
+        {
+            return true;
+        }
+        else
+        {
+            return meetIndex > node.meetIndex;
+        }
 	}
 
     void NTypeSetter(ENodeType ntype)
@@ -214,6 +230,16 @@ struct MNode
     {
         NDir = dir;
         dirStr = NDirStrMap[dir];
+    }
+
+	void CurCostSetter(int cost)
+	{
+		curCost = cost;
+	}
+
+    void MISetter(int index)
+    {
+        meetIndex = index;
     }
 
     pair<int, int> GetMapIndexYX() const
