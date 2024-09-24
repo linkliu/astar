@@ -10,7 +10,7 @@
                 "*.cpp",
                 "-lncursesw",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "${fileDirname}/main"
             ],
             "options": {
                 "cwd": "${fileDirname}"

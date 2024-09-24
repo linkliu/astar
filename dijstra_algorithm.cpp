@@ -1,6 +1,7 @@
 #include "dijstra_algorithm.h"
 #include "mnode.h"
 #include <chrono>
+#include <cmath>
 #include <functional>
 #include <ncurses.h>
 #include <queue>
@@ -8,6 +9,11 @@
 #include <utility>
 using std::priority_queue;
 using std::make_pair;
+
+int DIJAlgorithm::Heuristic(const MNode& nodeA , const MNode& nodeB) const
+{
+	return std::abs(nodeA.mapIndex_X - nodeB.mapIndex_X) + std::abs(nodeA.mapIndex_Y - nodeB.mapIndex_Y);
+}
 
 map<int, int> DIJAlgorithm::Resolve()
 {
@@ -24,13 +30,11 @@ map<int, int> DIJAlgorithm::Resolve()
         return solveMap;	
 	}
 	priority_queue<MNode, vector<MNode>, std::greater<MNode>> waveQueue;
-	map<int, int> curCostMap;
-	curCostMap.insert(make_pair(aMap.GetNodeNum(startNode), 0));
 	waveQueue.push(startNode);
-	int meetIndex = 0;
 	while(!waveQueue.empty())
 	{
 		const MNode checkNode = waveQueue.top();
+		waveQueue.pop();
 		if(checkNode == endNode)
 		{
 			break;
@@ -40,27 +44,23 @@ map<int, int> DIJAlgorithm::Resolve()
 		{
 			int ckNodeNum = aMap.GetNodeNum(checkNode);
 			int nextNodeNum = aMap.GetNodeNum(nextNode);
-			int nextCurCost = curCostMap[ckNodeNum] + nextNode.nodeCost;
-			map<int, int>::const_iterator citer = curCostMap.find(nextNodeNum);
-			if(citer == curCostMap.cend() || nextCurCost < citer->second)
+			map<int, int>::const_iterator citer = solveMap.find(nextNodeNum);
+			if(citer == solveMap.cend() && nextNode != startNode)
 			{
-				curCostMap[nextNodeNum] = nextCurCost;
-				nextNode.CurCostSetter(nextCurCost);
-				nextNode.MISetter(meetIndex);
+				nextNode.CurCostSetter(Heuristic(endNode, nextNode));
 				if(nextNode!=startNode && nextNode!=endNode)
 				{
 					// nextNode.NStateSetter(ENodeState::FINDDING);
 					// aMap.Draw(nextNode, EDrawType::STATE);
-					aMap.Draw(nextNode.curCost, nextNode.mapIndex_Y, nextNode.mapIndex_X);
+					aMap.Draw(nextNode.index, nextNode.mapIndex_Y, nextNode.mapIndex_X);
 					refresh();
 				}
-				std::this_thread::sleep_for(std::chrono::milliseconds(30));
+				std::this_thread::sleep_for(std::chrono::milliseconds(100));
 				waveQueue.push(nextNode);
 				solveMap.insert(make_pair(nextNodeNum, ckNodeNum));
-				meetIndex += 1;
 			}
 		}
-		waveQueue.pop();
+		// waveQueue.pop();
 	}
 	return solveMap;
 }

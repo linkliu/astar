@@ -172,6 +172,7 @@ void Map::buildNodes(map<int, MNode>& nMap)
         MNode node = MNode(ipair.first, ipair.second);
 		node.NTypeSetter(ENodeType::NORMAL);
 		node.NStateSetter(ENodeState::NONE);
+        node.index = i;
         nodeMap.insert({i, node});
     }
 }

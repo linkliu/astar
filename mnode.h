@@ -191,26 +191,12 @@ struct MNode
 
 	bool operator<(const MNode& node) const
 	{
-        if(curCost < node.curCost)
-        {
-            return true;
-        }
-        else 
-        {
-            return meetIndex < node.meetIndex;
-        }
+        return curCost < node.curCost;
 	}
 
 	bool operator>(const MNode& node) const
 	{
-        if(curCost > node.curCost)
-        {
-            return true;
-        }
-        else
-        {
-            return meetIndex > node.meetIndex;
-        }
+		return curCost > node.curCost;
 	}
 
     void NTypeSetter(ENodeType ntype)
