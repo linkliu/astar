@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include "dijstra_algorithm.h"
+#include "bfs_algorithm.h"
 #include "map_config.h"
 #include "mnode.h"
 #include "map.h"
@@ -26,8 +27,12 @@ int main(int argc, char* argv[])
     tMap.Draw(startNode, EDrawType::TYPE);
     tMap.Draw(endNode, EDrawType::TYPE);
 	tMap.DrawTerrain(MapConfig::TerrainMap);
+    // BFSAlgorithm bfs(tMap, startNode, endNode);
 	DIJAlgorithm dij(tMap, startNode, endNode);
-    map<int, int> bfsSolveMap = dij.Resolve();
+    // map<int, int> bfsSolveMap = bfs.Resolve();
+    map<int, int> dijSolveMap = dij.Resolve();
+    refresh();
+    tMap.DrawFinalPath(dij.FindPath(dijSolveMap), startNode, endNode);
     refresh();
     getch();
     tMap.ClearMap();

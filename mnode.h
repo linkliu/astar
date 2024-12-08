@@ -18,9 +18,13 @@ enum class EDir
 {
     NONE,
     LEFT,
-    RIGHT,
+    LEFT_UP,
     UP,
+    RIGHT_UP,
+    RIGHT,
+    RIGHT_DOWN,
     DOWN,
+    LEFT_DOWN,
 };
 
 enum class ENodeType
@@ -70,9 +74,13 @@ static map<EDir, string> NDirStrMap =
 {
     {EDir::NONE, "↺"},
     {EDir::LEFT, "⇦"},
-    {EDir::RIGHT, "⇨"},
+    {EDir::LEFT_UP, "⇖"},
     {EDir::UP, "⇧"},
+    {EDir::RIGHT_UP, "⇗"},
+    {EDir::RIGHT, "⇨"},
+    {EDir::RIGHT_DOWN, "⇘"},
     {EDir::DOWN, "⇩"},
+    {EDir::LEFT_DOWN, "⇙"},
 };
 
 static map<ENodeType, int> NCostMap = 
@@ -237,29 +245,26 @@ struct MNode
     {
         pair<int, int> selfPair = GetMapIndexYX();
         pair<int, int> otherPair = other.GetMapIndexYX();
-        if(selfPair.first == otherPair.first)
+        int yDir = selfPair.first - otherPair.first;
+        int xDir = selfPair.second - otherPair.second;
+        switch (yDir + xDir)
         {
-            if(selfPair.second < otherPair.second) 
-            {
-                return EDir::RIGHT;
-            }
-            else
-            {
-                return EDir::LEFT;
-            }
+            case -2:
+                return EDir::LEFT_UP;
+            case 2:
+                return EDir::RIGHT_DOWN;
+            case 0:
+                if(yDir == -1) return EDir::RIGHT_UP;
+                else return EDir::LEFT_DOWN;
+            case -1:
+                if(yDir == -1) return EDir::UP;
+                else return EDir::LEFT;
+            case 1:
+                if(yDir == 1) return EDir::DOWN;
+                else return EDir::RIGHT;
+        default:
+            return EDir::NONE;
         }
-        if(selfPair.second == otherPair.second)
-        {
-            if(selfPair.first < otherPair.first)
-            {
-                return EDir::DOWN;
-            }
-            else 
-            {
-                return EDir::UP;
-            }
-        }
-        return EDir::NONE;
     }
 };
 #endif

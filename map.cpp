@@ -189,6 +189,20 @@ void Map::ClearMap()
     endwin();
 }
 
+void Map::ClearNode(const MNode& node)
+{
+    if(isMapIndexValid(node.mapIndex_Y, node.mapIndex_X))
+    {
+        pair<int, int> miPair = ExchMapIndexToPOS(node.mapIndex_Y, node.mapIndex_X);
+        move(miPair.first, miPair.second-1);
+        printw("%s", " ");
+        move(miPair.first, miPair.second);
+        printw("%s", " ");
+        move(miPair.first, miPair.second+1);
+        printw("%s", " ");
+    }
+}
+
 void Map::Draw(int num, int _mapIndex_Y, int _mapIndex_X)
 {
     if(isMapIndexValid(_mapIndex_Y, _mapIndex_X))
@@ -385,12 +399,20 @@ list<pair<int, int>> Map::enumsNeighbors(const MNode& node)
 	pair<int, int> nPair = node.GetMapIndexYX();
 	//LEFT
 	pairList.push_back({nPair.first, nPair.second-1});
+    //LEFT_UP
+	pairList.push_back({nPair.first-1, nPair.second-1});
 	//UP
 	pairList.push_back({nPair.first-1, nPair.second});
+    //RIGHT_UP
+	pairList.push_back({nPair.first-1, nPair.second+1});
 	//RIGHT
 	pairList.push_back({nPair.first, nPair.second+1});
+    //RIGHT_DOWN
+	pairList.push_back({nPair.first+1, nPair.second+1});
 	//DOWN
 	pairList.push_back({nPair.first+1, nPair.second});
+    //LEFT_DOWN
+	pairList.push_back({nPair.first+1, nPair.second-1});
 	return pairList;
 }
 
@@ -478,6 +500,7 @@ void Map::DrawFinalPath(const vector<int>& pathVec, const MNode& startNode, cons
 		if(node1!=endNode)
 		{
 			std::this_thread::sleep_for(std::chrono::milliseconds(300));
+            ClearNode(node1);
 			Draw(node1, EDrawType::DIR);
 			refresh();
 		}

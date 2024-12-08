@@ -40,8 +40,7 @@ map<int, int> BFSAlgorithm::Resolve()
 				std::this_thread::sleep_for(std::chrono::milliseconds(10));
 				if(nextNode!=startNode && nextNode!=endNode)
 				{
-					nextNode.NStateSetter(ENodeState::FINDDING);
-					aMap.Draw(nextNode, EDrawType::STATE);
+					aMap.Draw(nextNode.index, nextNode.mapIndex_Y, nextNode.mapIndex_X);
 					refresh();
 				}
 				solveMap.insert(make_pair(aMap.GetNodeNum(nextNode), aMap.GetNodeNum(checkNode)));
