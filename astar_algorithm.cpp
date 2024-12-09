@@ -1,5 +1,4 @@
 #include "astar_algorithm.h"
-#include <chrono>
 #include <functional>
 #include <queue>
 using std::priority_queue;
@@ -26,4 +25,10 @@ map<int, int> AStarAlgorithm::Resolve()
         return solveMap;	
 	}
     priority_queue<MNode, vector<MNode>, std::greater<MNode>> waveQueue;
+	return solveMap;
+}
+
+vector<int> AStarAlgorithm::FindPath(map<int, int>& solveMap)
+{
+	return {};
 }

@@ -6,6 +6,7 @@
 #include <string>
 #include "dijstra_algorithm.h"
 #include "bfs_algorithm.h"
+#include "astar_algorithm.h"
 #include "map_config.h"
 #include "mnode.h"
 #include "map.h"
