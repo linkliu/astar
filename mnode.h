@@ -146,13 +146,14 @@ struct MNode
 	int nodeCost = 0;
 	int curCost = 0;
     int meetIndex = 0;
+    int heCost = 0;
     
     MNode() = default;
     MNode(int _mapY, int _mapX):mapIndex_Y(_mapY), mapIndex_X(_mapX){}
 	MNode(const MNode&) = default;
 	MNode& operator=(const MNode&) = default;
 	MNode(MNode&& other)noexcept:mapIndex_Y(other.mapIndex_Y), mapIndex_X(other.mapIndex_X),nodeCost(other.nodeCost),
-		index(other.index), stateStr(other.stateStr), typeStr(other.typeStr), curCost(other.curCost),meetIndex(other.meetIndex),
+		index(other.index), stateStr(other.stateStr), typeStr(other.typeStr), curCost(other.curCost),meetIndex(other.meetIndex),heCost(other.heCost),
 		dirStr(other.dirStr),NType(other.NType),NState(other.NState),NDir(other.NDir){}
 	MNode& operator=(MNode&&other)noexcept
 	{
@@ -163,6 +164,7 @@ struct MNode
 			index = other.index;
             nodeCost = other.nodeCost;
 			curCost = other.curCost;
+            heCost = other.heCost;
 			stateStr = other.stateStr;
 			typeStr = other.typeStr;
 			dirStr = other.dirStr;
@@ -199,12 +201,12 @@ struct MNode
 
 	bool operator<(const MNode& node) const
 	{
-        return curCost < node.curCost;
+        return heCost < node.heCost;
 	}
 
 	bool operator>(const MNode& node) const
 	{
-		return curCost > node.curCost;
+		return heCost > node.heCost;
 	}
 
     void NTypeSetter(ENodeType ntype)
@@ -230,6 +232,11 @@ struct MNode
 	{
 		curCost = cost;
 	}
+
+    void CurHeCostSetter(int cost)
+    {
+        heCost = heCost;
+    }
 
     void MISetter(int index)
     {

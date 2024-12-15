@@ -20,7 +20,7 @@ map<int, int> AStarAlgorithm::Resolve()
     const MNode& startNode = GetStartNode();
     const MNode& endNode = GetEndNode();
     map<int, int> solveMap;
-	map<int, int> costMap;
+	map<int, int> lessCostMap;
     if(!aMap.NodeCheck(startNode) || !aMap.NodeCheck(endNode) || aMap.Size() < 0)
 	{
 		stringstream ss;
@@ -31,7 +31,7 @@ map<int, int> AStarAlgorithm::Resolve()
 	}
     priority_queue<MNode, vector<MNode>, std::greater<MNode>> waveQueue;
 	waveQueue.push(startNode);
-	costMap.insert({aMap.GetNodeNum(startNode), 0});
+	lessCostMap.insert({aMap.GetNodeNum(startNode), 0});
 	while (!waveQueue.empty()) 
 	{
 		const MNode checkNode = waveQueue.top();
@@ -45,22 +45,24 @@ map<int, int> AStarAlgorithm::Resolve()
 		{
 			int ckNodeNum = aMap.GetNodeNum(checkNode);
 			int nextNodeNum = aMap.GetNodeNum(nextNode);
-			int nextCost = costMap[ckNodeNum] + nextNode.nodeCost + Heuristic(endNode, nextNode);
-			map<int, int>::const_iterator costIter = costMap.find(nextNodeNum);
-			if(costIter == costMap.cend() || nextCost < costMap[nextNodeNum])
+			int curCost = checkNode.curCost + nextNode.nodeCost;
+			nextNode.CurCostSetter(curCost);
+			int heCost = lessCostMap[ckNodeNum] + nextNode.curCost + Heuristic(endNode, nextNode);
+			map<int, int>::const_iterator costIter = lessCostMap.find(nextNodeNum);
+			if(costIter == lessCostMap.cend() || heCost < lessCostMap[nextNodeNum])
 			{
-				if(costIter == costMap.cend())
+				if(costIter == lessCostMap.cend())
 				{
-					costMap.insert({nextNodeNum, nextCost});
+					lessCostMap.insert({nextNodeNum, heCost});
 				}
 				else
 				{
-					costMap[nextNodeNum] = nextCost;
+					lessCostMap[nextNodeNum] = heCost;
 				}
-				nextNode.CurCostSetter(nextCost);
+				nextNode.CurHeCostSetter(heCost);
 				if(nextNode != startNode && nextNode != endNode)
 				{
-					aMap.Draw(costMap[nextNodeNum], nextNode.mapIndex_Y, nextNode.mapIndex_X);
+					aMap.Draw(nextNode.curCost, nextNode.mapIndex_Y, nextNode.mapIndex_X);
 					refresh();
 				}
 				std::this_thread::sleep_for(std::chrono::milliseconds(10));
