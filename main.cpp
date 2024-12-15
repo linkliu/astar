@@ -29,11 +29,15 @@ int main(int argc, char* argv[])
     tMap.Draw(endNode, EDrawType::TYPE);
 	tMap.DrawTerrain(MapConfig::TerrainMap);
     // BFSAlgorithm bfs(tMap, startNode, endNode);
-	DIJAlgorithm dij(tMap, startNode, endNode);
+	// DIJAlgorithm dij(tMap, startNode, endNode);
+	AStarAlgorithm asa(tMap, startNode, endNode);
     // map<int, int> bfsSolveMap = bfs.Resolve();
-    map<int, int> dijSolveMap = dij.Resolve();
+    // map<int, int> dijSolveMap = dij.Resolve();
+	map<int, int> asaSolveMap = asa.Resolve();
     refresh();
-    tMap.DrawFinalPath(dij.FindPath(dijSolveMap), startNode, endNode);
+    // tMap.DrawFinalPath(bfs.FindPath(bfsSolveMap), startNode, endNode);
+    // tMap.DrawFinalPath(dij.FindPath(dijSolveMap), startNode, endNode);
+    tMap.DrawFinalPath(asa.FindPath(asaSolveMap), startNode, endNode);
     refresh();
     getch();
     tMap.ClearMap();

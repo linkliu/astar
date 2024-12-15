@@ -400,19 +400,19 @@ list<pair<int, int>> Map::enumsNeighbors(const MNode& node)
 	//LEFT
 	pairList.push_back({nPair.first, nPair.second-1});
     //LEFT_UP
-	pairList.push_back({nPair.first-1, nPair.second-1});
+	// pairList.push_back({nPair.first-1, nPair.second-1});
 	//UP
 	pairList.push_back({nPair.first-1, nPair.second});
     //RIGHT_UP
-	pairList.push_back({nPair.first-1, nPair.second+1});
+	// pairList.push_back({nPair.first-1, nPair.second+1});
 	//RIGHT
 	pairList.push_back({nPair.first, nPair.second+1});
     //RIGHT_DOWN
-	pairList.push_back({nPair.first+1, nPair.second+1});
+	// pairList.push_back({nPair.first+1, nPair.second+1});
 	//DOWN
 	pairList.push_back({nPair.first+1, nPair.second});
     //LEFT_DOWN
-	pairList.push_back({nPair.first+1, nPair.second-1});
+	// pairList.push_back({nPair.first+1, nPair.second-1});
 	return pairList;
 }
 
