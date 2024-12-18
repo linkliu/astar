@@ -45,27 +45,18 @@ map<int, int> AStarAlgorithm::Resolve()
 		{
 			int ckNodeNum = aMap.GetNodeNum(checkNode);
 			int nextNodeNum = aMap.GetNodeNum(nextNode);
-			int curCost = checkNode.curCost + nextNode.nodeCost;
-			nextNode.CurCostSetter(curCost);
-			int heCost = lessCostMap[ckNodeNum] + nextNode.curCost + Heuristic(endNode, nextNode);
-			map<int, int>::const_iterator costIter = lessCostMap.find(nextNodeNum);
-			if(costIter == lessCostMap.cend() || heCost < lessCostMap[nextNodeNum])
+			int nextCost = lessCostMap[ckNodeNum] + aMap.GetCost(checkNode, nextNode);
+			if(lessCostMap.find(nextNodeNum) == lessCostMap.cend() || nextCost < lessCostMap[nextNodeNum])
 			{
-				if(costIter == lessCostMap.cend())
-				{
-					lessCostMap.insert({nextNodeNum, heCost});
-				}
-				else
-				{
-					lessCostMap[nextNodeNum] = heCost;
-				}
+				lessCostMap[nextNodeNum] = nextCost;
+				int heCost = nextCost + Heuristic(nextNode, endNode);	
 				nextNode.CurHeCostSetter(heCost);
 				if(nextNode != startNode && nextNode != endNode)
 				{
-					aMap.Draw(nextNode.curCost, nextNode.mapIndex_Y, nextNode.mapIndex_X);
+					aMap.Draw(nextNode.heCost, nextNode.mapIndex_Y, nextNode.mapIndex_X);
 					refresh();
 				}
-				std::this_thread::sleep_for(std::chrono::milliseconds(10));
+				std::this_thread::sleep_for(std::chrono::milliseconds(100));
 				waveQueue.push(nextNode);
 				solveMap.insert(make_pair(nextNodeNum, ckNodeNum));
 			}

@@ -67,5 +67,6 @@ class Map
 		void DrawOriginPath(const map<int, int> & oriMap, const MNode&, const MNode&);
 		void DrawFinalPath(const vector<int>& pathVec, const MNode&, const MNode&);
 		bool Reacheable(const MNode&) const;
+        int GetCost(const MNode&, const MNode&) const;
 };
 #endif

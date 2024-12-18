@@ -7,8 +7,10 @@
 #include <queue>
 #include <thread>
 #include <utility>
+#include <unordered_map>
 using std::priority_queue;
 using std::make_pair;
+using std::unordered_map;
 
 int DIJAlgorithm::Heuristic(const MNode& nodeA , const MNode& nodeB) const
 {
@@ -21,6 +23,7 @@ map<int, int> DIJAlgorithm::Resolve()
 	const MNode& startNode = GetStartNode();
 	const MNode& endNode = GetEndNode();
 	map<int, int> solveMap;
+	unordered_map<int, int> lessCostMap;
 	if(!aMap.NodeCheck(startNode) || !aMap.NodeCheck(endNode) || aMap.Size() < 0)
 	{
 		stringstream ss;
@@ -31,6 +34,7 @@ map<int, int> DIJAlgorithm::Resolve()
 	}
 	priority_queue<MNode, vector<MNode>, std::greater<MNode>> waveQueue;
 	waveQueue.push(startNode);
+	lessCostMap.emplace(aMap.GetNodeNum(startNode), 0);
 	while(!waveQueue.empty())
 	{
 		const MNode checkNode = waveQueue.top();
@@ -44,15 +48,16 @@ map<int, int> DIJAlgorithm::Resolve()
 		{
 			int ckNodeNum = aMap.GetNodeNum(checkNode);
 			int nextNodeNum = aMap.GetNodeNum(nextNode);
-			map<int, int>::const_iterator citer = solveMap.find(nextNodeNum);
-			if(citer == solveMap.cend() && nextNode != startNode)
+			int nextCost = lessCostMap[ckNodeNum] + aMap.GetCost(checkNode, nextNode);
+			if(lessCostMap.find(nextNodeNum) == lessCostMap.cend() || nextCost < lessCostMap[nextNodeNum])
 			{
-				nextNode.CurCostSetter(Heuristic(endNode, nextNode));
+				lessCostMap[nextNodeNum] = nextCost;
+				nextNode.CurHeCostSetter(nextCost);
 				if(nextNode!=startNode && nextNode!=endNode)
 				{
 					// nextNode.NStateSetter(ENodeState::FINDDING);
 					// aMap.Draw(nextNode, EDrawType::STATE);
-					aMap.Draw(nextNode.index, nextNode.mapIndex_Y, nextNode.mapIndex_X);
+					aMap.Draw(nextNode.heCost, nextNode.mapIndex_Y, nextNode.mapIndex_X);
 					refresh();
 				}
 				std::this_thread::sleep_for(std::chrono::milliseconds(10));

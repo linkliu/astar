@@ -86,9 +86,9 @@ static map<EDir, string> NDirStrMap =
 static map<ENodeType, int> NCostMap = 
 {
 	{ENodeType::NONE, 1},
-	{ENodeType::NORMAL, 1},
-	{ENodeType::START, 1},
-	{ENodeType::END, 1},
+	{ENodeType::NORMAL, 2},
+	{ENodeType::START, 2},
+	{ENodeType::END, 2},
 	{ENodeType::WATER, 10},
 	{ENodeType::BARRIER, 10},
 
@@ -209,6 +209,16 @@ struct MNode
 		return heCost > node.heCost;
 	}
 
+    bool operator<=(const MNode& node) const
+	{
+        return heCost <= node.heCost;
+	}
+
+	bool operator>=(const MNode& node) const
+	{
+		return heCost >= node.heCost;
+	}
+
     void NTypeSetter(ENodeType ntype)
     {
         NType = ntype;
@@ -235,7 +245,7 @@ struct MNode
 
     void CurHeCostSetter(int cost)
     {
-        heCost = heCost;
+        heCost = cost;
     }
 
     void MISetter(int index)
