@@ -1,38 +1,34 @@
-#include "astar_algorithm.h"
+#include "gbfs_algorithm.h"
 #include "mnode.h"
 #include <chrono>
 #include <functional>
 #include <queue>
 #include <thread>
-#include <utility>
 using std::priority_queue;
-using std::make_pair;
 
 
-int AStarAlgorithm::Heuristic(const MNode& nodeA, const MNode& nodeB) const
+int GBFSAlgorithm::Heuristic(const MNode& nodeA, const MNode& nodeB) const
 {
 	return std::abs(nodeA.mapIndex_X - nodeB.mapIndex_X) + std::abs(nodeA.mapIndex_Y - nodeB.mapIndex_Y);
 }
 
-map<int, int> AStarAlgorithm::Resolve()
+map<int, int> GBFSAlgorithm::Resolve()
 {
-    Map& aMap = GetMap();
-    const MNode& startNode = GetStartNode();
-    const MNode& endNode = GetEndNode();
-    map<int, int> solveMap;
-	map<int, int> lessCostMap;
-    if(!aMap.NodeCheck(startNode) || !aMap.NodeCheck(endNode) || aMap.Size() < 0)
+	Map& aMap = GetMap();
+	const MNode& startNode = GetStartNode();
+	const MNode& endNode = GetEndNode();
+	map<int, int> solveMap;
+	if(!aMap.NodeCheck(startNode) || !aMap.NodeCheck(endNode) || aMap.Size() < 0)
 	{
 		stringstream ss;
-        ss<<"invalid start node:"<<startNode.ToString()<<" or end node:"<<endNode.ToString()<<endl;
+		ss<<"invalid start node:"<<startNode.ToString()<<" or end node:"<<endNode.ToString()<<endl;
         cout<<ss.str();
         endwin();
         return solveMap;	
 	}
-    priority_queue<MNode, vector<MNode>, std::greater<MNode>> waveQueue;
+	priority_queue<MNode, vector<MNode>, std::greater<MNode>> waveQueue;
 	waveQueue.push(startNode);
-	lessCostMap.insert({aMap.GetNodeNum(startNode), 0});
-	while (!waveQueue.empty()) 
+	while(!waveQueue.empty())
 	{
 		const MNode checkNode = waveQueue.top();
 		waveQueue.pop();
@@ -40,32 +36,29 @@ map<int, int> AStarAlgorithm::Resolve()
 		{
 			break;
 		}
-		list<MNode> neighborList = aMap.GetFilterNeighbors(checkNode);
+		list <MNode> neighborList = aMap.GetFilterNeighbors(checkNode);
 		for (MNode nextNode : neighborList) 
 		{
-			int ckNodeNum = aMap.GetNodeNum(checkNode);
+			int checkNodeNum = aMap.GetNodeNum(checkNode);
 			int nextNodeNum = aMap.GetNodeNum(nextNode);
-			int nextCost = lessCostMap[ckNodeNum] + aMap.GetCost(checkNode, nextNode);
-			if(lessCostMap.find(nextNodeNum) == lessCostMap.cend() || nextCost < lessCostMap[nextNodeNum])
+			if(solveMap.find(nextNodeNum) == solveMap.cend() && nextNode != startNode)
 			{
-				lessCostMap[nextNodeNum] = nextCost;
-				int heCost = nextCost + Heuristic(nextNode, endNode);	
-				nextNode.CurHeCostSetter(heCost);
-				if(nextNode != startNode && nextNode != endNode)
+				nextNode.CurHeCostSetter(Heuristic(nextNode, endNode));
+				waveQueue.push(nextNode);
+				solveMap.emplace(nextNodeNum, checkNodeNum);
+				if(nextNode!=startNode && nextNode!=endNode)
 				{
 					aMap.Draw(nextNode.heCost, nextNode.mapIndex_Y, nextNode.mapIndex_X);
 					refresh();
 				}
 				std::this_thread::sleep_for(std::chrono::milliseconds(10));
-				waveQueue.push(nextNode);
-				solveMap.insert(make_pair(nextNodeNum, ckNodeNum));
 			}
 		}
 	}
 	return solveMap;
 }
 
-vector<int> AStarAlgorithm::FindPath(map<int, int>& solveMap)
+vector<int> GBFSAlgorithm::FindPath(map<int, int>& solveMap)
 {
 	const Map& aMap = GetMap();
 	const MNode& startNode = GetStartNode();
